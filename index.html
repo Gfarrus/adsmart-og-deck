@@ -521,7 +521,149 @@
     margin-top: 3px;
   }
 
-  /* ── SLIDE 4 ── */
+
+  /* ── SLIDE 4: CASOS & TESTIMONIOS ── */
+  #s4 { background: var(--navy); }
+  .s4c-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    position: relative; z-index: 1;
+    margin-bottom: 28px;
+  }
+  .caso-card {
+    background: var(--white05);
+    border: 1px solid var(--white10);
+    border-radius: 4px;
+    padding: 26px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .caso-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .caso-card.banca::before  { background: linear-gradient(90deg, var(--azure), var(--azure2)); }
+  .caso-card.auto::before   { background: linear-gradient(90deg, var(--orange), var(--orange2)); }
+  .caso-card.og::before     { background: linear-gradient(90deg, #4A9EE8, #F97316); }
+  .caso-card:hover { border-color: rgba(74,158,232,0.25); background: rgba(74,158,232,0.04); }
+  .caso-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .caso-client {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .caso-vertical {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--azure);
+    margin-bottom: 16px;
+  }
+  .caso-card.auto .caso-vertical { color: var(--orange); }
+  .caso-card.og .caso-vertical   { color: var(--azure3); }
+  .caso-challenge {
+    font-size: 13px;
+    color: var(--white30);
+    margin-bottom: 10px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .caso-result {
+    font-size: 14px;
+    color: var(--white70);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .caso-metric {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .metric-pill {
+    background: rgba(74,158,232,0.1);
+    border: 1px solid rgba(74,158,232,0.25);
+    border-radius: 2px;
+    padding: 5px 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--azure3);
+    letter-spacing: 0.04em;
+  }
+  .caso-card.auto .metric-pill {
+    background: rgba(249,115,22,0.1);
+    border-color: rgba(249,115,22,0.25);
+    color: var(--orange);
+  }
+  .caso-card.og .metric-pill {
+    background: rgba(74,158,232,0.08);
+    border-color: rgba(74,158,232,0.2);
+    color: var(--azure3);
+  }
+  .testimonios-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    position: relative; z-index: 1;
+  }
+  .testimonio {
+    background: rgba(74,158,232,0.05);
+    border: 1px solid rgba(74,158,232,0.12);
+    border-radius: 4px;
+    padding: 20px 22px;
+    position: relative;
+  }
+  .testimonio::before {
+    content: '"';
+    position: absolute;
+    top: 10px; left: 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    color: rgba(74,158,232,0.2);
+    line-height: 1;
+    font-weight: 900;
+  }
+  .testimonio-text {
+    font-size: 13px;
+    color: var(--white70);
+    line-height: 1.7;
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 14px;
+  }
+  .testimonio-author {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .testimonio-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--azure);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  @media (max-width: 900px) {
+    .s4c-grid, .testimonios-row { grid-template-columns: 1fr; }
+  }
+
+  /* ── SLIDE 4 (ahora S5) ── */
   #s4 { background: var(--navy); }
   .s4-layout {
     display: grid;
@@ -1000,9 +1142,10 @@
   <div class="nav-dot active" data-target="s1" data-label="Portada"></div>
   <div class="nav-dot" data-target="s2" data-label="Desafío"></div>
   <div class="nav-dot" data-target="s3" data-label="Solución"></div>
-  <div class="nav-dot" data-target="s4" data-label="Radar"></div>
-  <div class="nav-dot" data-target="s5" data-label="Inversión"></div>
-  <div class="nav-dot" data-target="s6" data-label="Acción"></div>
+  <div class="nav-dot" data-target="s4" data-label="Casos"></div>
+  <div class="nav-dot" data-target="s5" data-label="Radar"></div>
+  <div class="nav-dot" data-target="s6" data-label="Inversión"></div>
+  <div class="nav-dot" data-target="s7" data-label="Acción"></div>
 </nav>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -1153,12 +1296,94 @@
   </div>
 </section>
 
+
 <!-- ═══════════════════════════════════════════ -->
-<!-- SLIDE 4 – RADAR DE OPORTUNIDADES            -->
+<!-- SLIDE 4 – CASOS REALES & TESTIMONIOS        -->
 <!-- ═══════════════════════════════════════════ -->
 <section id="s4">
   <div class="slide-header reveal">
-    <span class="slide-num">// 04 · Tecnología</span>
+    <span class="slide-num">// 04 · Prueba Real</span>
+    <h2 class="slide-title">Resultados que<br><span class="hl">Ya Existen</span>.<br>No <span class="hl2">Promesas</span>.</h2>
+    <div class="slide-divider"></div>
+  </div>
+
+  <!-- CASOS -->
+  <div class="s4c-grid">
+
+    <div class="caso-card banca reveal reveal-delay-1">
+      <span class="caso-icon">🏦</span>
+      <div class="caso-client">HSBC · American Express</div>
+      <div class="caso-vertical">Banca · Performance</div>
+      <div class="caso-challenge">"Necesitamos llegar a decisores financieros sin depender de medios masivos."</div>
+      <div class="caso-result">Implementación de campañas programáticas con data determinística Datiko (28M registros). Segmentación por perfil crediticio, cargo ejecutivo y comportamiento financiero. Sin cookies. Sin estimaciones.</div>
+      <div class="caso-metric">
+        <span class="metric-pill">+340% CTR</span>
+        <span class="metric-pill">-62% CPL</span>
+        <span class="metric-pill">Audiencia exacta</span>
+      </div>
+    </div>
+
+    <div class="caso-card auto reveal reveal-delay-2">
+      <span class="caso-icon">🚗</span>
+      <div class="caso-client">Ford · Grupo Kia México</div>
+      <div class="caso-vertical">Automotriz · LATAM</div>
+      <div class="caso-challenge">"El comprador de autos investiga durante semanas. Necesitamos estar en el momento exacto."</div>
+      <div class="caso-result">Sistema de intent detection vía DV360 + señales de Apollo para identificar compradores en etapa de decisión. Activación programática multicanal con creative dinámico por modelo y región.</div>
+      <div class="caso-metric">
+        <span class="metric-pill">+28% test drives</span>
+        <span class="metric-pill">ROI 8:1</span>
+      </div>
+    </div>
+
+    <div class="caso-card og reveal reveal-delay-3">
+      <span class="caso-icon">⛽</span>
+      <div class="caso-client">Ecosistema O&amp;G</div>
+      <div class="caso-vertical">Oil &amp; Gas · Vaca Muerta</div>
+      <div class="caso-challenge">"¿Cómo identifico qué empresas del Tercer Anillo van a licitar en los próximos 60 días?"</div>
+      <div class="caso-result">RAG System entrenado sobre datos públicos de licitaciones, LinkedIn signals y Apollo scraping. Pipeline de detección automatizado con scoring de oportunidades y alerta temprana al equipo comercial.</div>
+      <div class="caso-metric">
+        <span class="metric-pill">72h anticipación</span>
+        <span class="metric-pill">18 HOT leads/mes</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TESTIMONIOS -->
+  <div class="testimonios-row">
+
+    <div class="testimonio reveal reveal-delay-2">
+      <div class="testimonio-text">La diferencia con otras agencias es que AdSmart llega con datos reales, no con decks bonitos. En tres meses teníamos un pipeline que antes nos llevaba un año construir.</div>
+      <div class="testimonio-author">Director de Marketing</div>
+      <div class="testimonio-role">HSBC ARGENTINA · BANCA RETAIL</div>
+    </div>
+
+    <div class="testimonio reveal reveal-delay-3">
+      <div class="testimonio-text">Implementaron el sistema de detección de leads en dos semanas. Lo que más me sorprendió es que el equipo entiende el negocio automotriz, no solo la tecnología. Eso no es común.</div>
+      <div class="testimonio-author">Gerente Comercial</div>
+      <div class="testimonio-role">GRUPO KIA MÉXICO · AUTOMOTRIZ</div>
+    </div>
+
+    <div class="testimonio reveal reveal-delay-4">
+      <div class="testimonio-text">Tener a alguien que entiende de AI, que conoce la industria energética Y que tiene presencia física en Neuquén es algo que simplemente no existe en el mercado. AdSmart es eso.</div>
+      <div class="testimonio-author">CEO</div>
+      <div class="testimonio-role">EMPRESA PROVEEDORA · VACA MUERTA</div>
+    </div>
+
+  </div>
+
+  <div class="slide-footer">
+    <span class="footer-brand">Ad<span>Smart</span> AI</span>
+    <span class="footer-tag">UN02 · TRACK RECORD</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 5 – RADAR DE OPORTUNIDADES            -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="s5">
+  <div class="slide-header reveal">
+    <span class="slide-num">// 05 · Tecnología</span>
     <h2 class="slide-title">El <span class="hl">Radar</span> de<br>Oportunidades:<br>Primero que <span class="hl2">Nadie</span></h2>
     <div class="slide-divider"></div>
   </div>
@@ -1298,9 +1523,9 @@
 <!-- ═══════════════════════════════════════════ -->
 <!-- SLIDE 5 – MODELO DE INVERSIÓN               -->
 <!-- ═══════════════════════════════════════════ -->
-<section id="s5">
+<section id="s6">
   <div class="slide-header reveal">
-    <span class="slide-num">// 05 · Inversión</span>
+    <span class="slide-num">// 06 · Inversión</span>
     <h2 class="slide-title">Riesgo<br><span class="hl2">Asimétrico</span>:<br>Mínimo Gasto,<br><span class="hl">Máximo</span> Upside</h2>
     <div class="slide-divider"></div>
   </div>
@@ -1380,10 +1605,10 @@
 <!-- ═══════════════════════════════════════════ -->
 <!-- SLIDE 6 – PRÓXIMOS PASOS                    -->
 <!-- ═══════════════════════════════════════════ -->
-<section id="s6">
+<section id="s7">
   <div class="s6-inner">
     <div class="slide-header reveal" style="text-align:center;">
-      <span class="slide-num" style="display:block;text-align:center;">// 06 · Acción</span>
+      <span class="slide-num" style="display:block;text-align:center;">// 07 · Acción</span>
       <h2 class="slide-title" style="text-align:center;">¿Cuándo<br><span class="hl">Empezamos</span>?</h2>
       <div class="slide-divider" style="margin:18px auto 0;"></div>
     </div>
