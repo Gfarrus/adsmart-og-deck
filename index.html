@@ -581,7 +581,7 @@ section { position: relative; z-index: 1; }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--border);
 }
@@ -1146,6 +1146,46 @@ footer {
         <span class="tag">Regulatory AI</span>
       </div>
     </div>
+    <div class="scard" style="border-top:2px solid var(--orange);grid-column:1/-1;background:var(--navy2);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;">
+        <div style="flex:1;min-width:280px;">
+          <div class="scard-num" style="position:static;font-size:40px;margin-bottom:16px;">07</div>
+          <div class="scard-name">Computer Vision · Seguridad Operacional</div>
+          <p class="scard-desc" style="max-width:560px;">Visión computacional en tiempo real aplicada a entornos críticos de O&G: detección de intrusos en zonas restringidas, monitoreo de tráfico vehicular en yacimientos, control de EPP y seguridad en pozos. Powered by <strong style="color:var(--white);">Sumato AI</strong>.</p>
+          <div class="scard-tags">
+            <span class="tag">Acceso a Zonas Restringidas</span>
+            <span class="tag">Control de EPP</span>
+            <span class="tag">Tráfico Vehicular</span>
+            <span class="tag">Seguridad en Pozos</span>
+            <span class="tag">CCTV Intelligence</span>
+            <span class="tag">Alertas en Tiempo Real</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px;align-items:flex-end;min-width:220px;">
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:16px 24px;">
+            <img src="https://sumatoid.com/icons/sumatoicon.svg" alt="Sumato" style="width:28px;height:auto;filter:brightness(0) invert(1);opacity:0.7;">
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--white);">SUMATO AI</div>
+              <div style="font-size:9px;font-weight:600;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">Socio Tecnológico</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;width:100%;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);">
+              <div style="width:6px;height:6px;background:var(--orange);flex-shrink:0;"></div>
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Smart Industry</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);">
+              <div style="width:6px;height:6px;background:var(--orange);flex-shrink:0;"></div>
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Safety City</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);">
+              <div style="width:6px;height:6px;background:var(--orange);flex-shrink:0;"></div>
+              <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">O&G Field Security</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1205,12 +1245,14 @@ footer {
 
   <div class="team-grid">
     <div class="tcard">
+      <img src="https://itba.edu.ar/wp-content/uploads/ITBA-logo.png" alt="ITBA" style="height:28px;width:auto;filter:brightness(0) invert(1);opacity:0.75;display:block;margin-bottom:20px;">
       <div class="tcard-role">Ingeniería de Procesos & Automatización</div>
       <div class="tcard-name">Socios ITBA</div>
       <div class="tcard-inst">Instituto Tecnológico de Buenos Aires</div>
       <p class="tcard-bio">Ingenieros especializados en automatización industrial, sistemas de control y arquitectura de datos para entornos críticos de O&G. Experiencia directa en yacimientos de Vaca Muerta, cuencas del sur y proyectos de infraestructura energética de gran escala.</p>
     </div>
     <div class="tcard">
+      <img src="https://www.udesa.edu.ar/logo/logo-header.svg" alt="UdeSA" style="height:28px;width:auto;filter:brightness(0) invert(1);opacity:0.75;display:block;margin-bottom:20px;" onerror="this.style.display='none'">
       <div class="tcard-role">Estrategia Corporativa & Negocios</div>
       <div class="tcard-name">Socios UDESA</div>
       <div class="tcard-inst">Universidad de San Andrés — Facultad de Negocios</div>
@@ -1221,6 +1263,15 @@ footer {
       <div class="tcard-name">Expertos Oil & Gas</div>
       <div class="tcard-inst">Vaca Muerta · Cuenca Neuquina · Midstream LATAM</div>
       <p class="tcard-bio">Profesionales con trayectoria en operadoras y contratistas líderes del sector. Conocimiento profundo de operaciones upstream, integridad de ductos, HSE y regulación en Argentina y LATAM. El puente entre la tecnología y la realidad del campo.</p>
+    </div>
+    <div class="tcard" style="border-bottom-color:var(--orange);">
+      <div class="tcard-role">Socio Tecnológico · Computer Vision</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <img src="https://sumatoid.com/icons/sumatoicon.svg" alt="Sumato" style="width:22px;height:auto;filter:brightness(0) invert(1);opacity:0.7;">
+        <div class="tcard-name" style="margin-bottom:0;">Sumato AI</div>
+      </div>
+      <div class="tcard-inst">sumatoid.com · Buenos Aires, Argentina</div>
+      <p class="tcard-bio">Plataforma de visión computacional e inteligencia artificial para industria, seguridad y ciudades inteligentes. Especializada en detección de EPP, control de accesos, monitoreo de tráfico y seguridad operacional en entornos industriales críticos.</p>
     </div>
   </div>
 </section>
