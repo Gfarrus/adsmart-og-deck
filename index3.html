@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdSmart AI · Oil & Gas Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy2: #0D1D30;
+  --orange: #F97316;
+  --orange2: #EA580C;
+  --azure: #4A9EE8;
+  --white: #F9FAFB;
+  --muted: #94A3B8;
+  --border: rgba(255,255,255,0.08);
+  --border-o: rgba(249,115,22,0.25);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* subtle grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(74,158,232,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,158,232,0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(10,22,40,0.97);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  color: var(--white);
+}
+
+.logo-dot { color: var(--orange); }
+
+.logo-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--white); }
+
+.nav-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--orange);
+  border: none;
+  padding: 10px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover { background: var(--orange2); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 68px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--navy);
+}
+
+.hero-img {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 52%;
+  object-fit: cover;
+  opacity: 0.15;
+  mask-image: linear-gradient(to left, black 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 48px;
+  max-width: 800px;
+  animation: fadeUp 0.9s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--orange);
+}
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(60px, 9vw, 108px);
+  line-height: 0.9;
+  letter-spacing: -1px;
+  margin-bottom: 32px;
+}
+
+.hero-title .t1 { color: var(--white); display: block; }
+.hero-title .t2 { color: var(--orange); display: block; }
+.hero-title .t3 { 
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--azure);
+  display: block;
+}
+
+.hero-desc {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+
+.hero-desc strong { color: var(--white); font-weight: 600; }
+
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-orange {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--orange);
+  border: none;
+  padding: 16px 36px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.btn-orange:hover { background: var(--orange2); transform: translateY(-1px); }
+
+.btn-outline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 16px 36px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover { border-color: var(--white); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+
+.hstat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 40px;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hstat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ===== MARQUEE ===== */
+.marquee-wrap {
+  border-top: 1px solid var(--border-o);
+  border-bottom: 1px solid var(--border-o);
+  overflow: hidden;
+  padding: 18px 0;
+  background: rgba(249,115,22,0.03);
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 28s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 40px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.marquee-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+/* ===== SECTION BASE ===== */
+section { position: relative; z-index: 1; }
+
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label::before { content: '—'; }
+
+.sec-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 0.95;
+  letter-spacing: -0.5px;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+/* ===== SERVICES ===== */
+.services {
+  padding: 120px 48px;
+}
+
+.services-head {
+  max-width: 640px;
+  margin-bottom: 72px;
+}
+
+.services-head p {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 16px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.scard {
+  background: var(--navy);
+  padding: 40px 32px;
+  position: relative;
+  border-top: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.scard:hover {
+  background: var(--navy2);
+  border-top-color: var(--orange);
+}
+
+.scard-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  color: rgba(255,255,255,0.04);
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.scard:hover .scard-num { color: rgba(249,115,22,0.08); }
+
+.scard-icon {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  filter: grayscale(1) brightness(0.7);
+  transition: filter 0.3s;
+}
+
+.scard:hover .scard-icon { filter: grayscale(0) brightness(1); }
+
+.scard-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.scard-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.scard-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  transition: all 0.2s;
+}
+
+.scard:hover .tag {
+  border-color: rgba(249,115,22,0.3);
+  color: var(--orange);
+}
+
+/* ===== VALUE ===== */
+.value {
+  padding: 120px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.value-img-wrap { position: relative; }
+
+.value-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.4) contrast(1.15);
+  opacity: 0.75;
+}
+
+.value-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,22,40,0.95);
+  border-top: 2px solid var(--orange);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vl-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.vl-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+  max-width: 140px;
+  line-height: 1.4;
+}
+
+.value-points {
+  list-style: none;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vp {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.vp:first-child { border-top: 1px solid var(--border); }
+
+.vp-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  color: var(--orange);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 32px;
+}
+
+.vp-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.vp-text {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ===== TEAM ===== */
+.team { padding: 120px 48px; }
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 64px;
+  gap: 40px;
+}
+
+.team-header p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 400px;
+  line-height: 1.8;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.tcard {
+  background: var(--navy);
+  padding: 40px 32px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.tcard:hover {
+  background: var(--navy2);
+  border-bottom-color: var(--orange);
+}
+
+.tcard-initial {
+  width: 52px;
+  height: 52px;
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+
+.tcard-role {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--azure);
+  margin-bottom: 6px;
+}
+
+.tcard-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.tcard-inst {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.tcard-bio {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ===== EXPERTISE ===== */
+.expertise {
+  padding: 120px 48px;
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.expertise-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.exp-text p {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 18px;
+}
+
+.exp-text strong { color: var(--white); font-weight: 600; }
+
+.industries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.ind {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  transition: all 0.2s;
+}
+
+.ind:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.exp-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+
+.estat {
+  background: var(--navy);
+  padding: 36px 28px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.estat:hover {
+  background: var(--navy2);
+  border-left-color: var(--orange);
+}
+
+.estat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 52px;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.estat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ===== PROCESS ===== */
+.process { padding: 120px 48px; }
+
+.process-head {
+  margin-bottom: 72px;
+  max-width: 600px;
+}
+
+.process-head p {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 16px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.step {
+  background: var(--navy);
+  padding: 40px 28px;
+  border-top: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.step:hover {
+  background: var(--navy2);
+  border-top-color: var(--orange);
+}
+
+.step-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 52px;
+  color: rgba(249,115,22,0.15);
+  line-height: 1;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+}
+
+.step:hover .step-n { color: rgba(249,115,22,0.4); }
+
+.step-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.step-text {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ===== CTA ===== */
+.cta {
+  padding: 120px 48px;
+  background: var(--orange);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta::before {
+  content: 'AI';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 400px;
+  color: rgba(0,0,0,0.07);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.cta-text .label { color: rgba(0,0,0,0.5); }
+.cta-text .label::before { content: '—'; }
+
+.cta-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 0.95;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+.cta-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  max-width: 400px;
+  line-height: 1.7;
+  margin-top: 16px;
+}
+
+.cta-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 320px;
+}
+
+.cta-input {
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--white);
+  padding: 16px 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cta-input::placeholder { color: rgba(255,255,255,0.5); }
+.cta-input:focus { border-color: rgba(255,255,255,0.6); }
+
+.btn-dark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: var(--navy);
+  border: none;
+  padding: 16px 32px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.btn-dark:hover { background: var(--navy2); }
+
+.cta-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #050D18;
+  border-top: 1px solid var(--border);
+  padding: 64px 48px 40px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand .logo { margin-bottom: 12px; }
+
+.footer-brand p {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 8px;
+}
+
+.footer-col h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.footer-col a {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--orange); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copy {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footer-tagline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .value, .expertise-inner { grid-template-columns: 1fr; gap: 48px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 20px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .services, .team, .expertise, .process { padding: 80px 20px; }
+  .value { padding: 80px 20px; }
+  .cta { padding: 80px 20px; }
+  .cta-inner { flex-direction: column; }
+  .cta-form { min-width: unset; width: 100%; }
+  .services-grid, .team-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .exp-stats { grid-template-columns: 1fr; }
+  footer { padding: 48px 20px 32px; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .team-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <span class="logo-text">AdSmart<span class="logo-dot">•</span></span>
+    <span class="logo-sub">Business Development & Strategic Partner</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#valor">Propuesta</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#expertise">Expertise</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-btn">Agendar Reunión</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <img class="hero-img"
+    src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1400&q=80&auto=format&fit=crop"
+    alt="Oil platform" loading="eager">
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Upstream & Midstream Intelligence</div>
+    <h1 class="hero-title">
+      <span class="t1">INTELIGENCIA</span>
+      <span class="t2">ARTIFICIAL</span>
+      <span class="t3">EN ENERGÍA</span>
+    </h1>
+    <p class="hero-desc">
+      Transformamos la operación de <strong>Oil & Gas</strong> con IA de alto rendimiento.
+      Eficiencia operativa, mitigación de riesgos y decisiones basadas en datos
+      para el <strong>Upstream y Midstream</strong>.
+    </p>
+    <div class="hero-btns">
+      <a href="#contacto" class="btn-orange">Ver Demo Ejecutiva</a>
+      <a href="#servicios" class="btn-outline">Explorar Servicios</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hstat-num">12+</div>
+        <div class="hstat-label">Años de Expertise</div>
+      </div>
+      <div>
+        <div class="hstat-num">40%</div>
+        <div class="hstat-label">Reducción de Costos</div>
+      </div>
+      <div>
+        <div class="hstat-num">28M</div>
+        <div class="hstat-label">Registros Datiko</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Predictive Maintenance AI</span>
+    <span class="marquee-item">Real-Time Risk Analytics</span>
+    <span class="marquee-item">Pipeline Integrity Monitoring</span>
+    <span class="marquee-item">Production Optimization</span>
+    <span class="marquee-item">Digital Twin Deployment</span>
+    <span class="marquee-item">Upstream Intelligence</span>
+    <span class="marquee-item">Midstream Automation</span>
+    <span class="marquee-item">ESG Compliance AI</span>
+    <span class="marquee-item">Predictive Maintenance AI</span>
+    <span class="marquee-item">Real-Time Risk Analytics</span>
+    <span class="marquee-item">Pipeline Integrity Monitoring</span>
+    <span class="marquee-item">Production Optimization</span>
+    <span class="marquee-item">Digital Twin Deployment</span>
+    <span class="marquee-item">Upstream Intelligence</span>
+    <span class="marquee-item">Midstream Automation</span>
+    <span class="marquee-item">ESG Compliance AI</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="services-head">
+    <div class="label">Líneas de Servicio</div>
+    <h2 class="sec-title">IA APLICADA AL<br>UPSTREAM Y MIDSTREAM</h2>
+    <p>Soluciones de inteligencia artificial diseñadas para los desafíos operativos de la industria energética, desde la extracción hasta el transporte.</p>
+  </div>
+  <div class="services-grid">
+    <div class="scard">
+      <div class="scard-num">01</div>
+      <div class="scard-icon">⚡</div>
+      <div class="scard-name">Mantenimiento Predictivo</div>
+      <p class="scard-desc">Modelos ML que anticipan fallas en equipos críticos — válvulas, turbinas, compresores — reduciendo paradas no planificadas hasta un 45%.</p>
+      <div class="scard-tags">
+        <span class="tag">SCADA Integration</span>
+        <span class="tag">IoT Sensors</span>
+        <span class="tag">Anomaly Detection</span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-num">02</div>
+      <div class="scard-icon">🛡</div>
+      <div class="scard-name">Gestión de Riesgos AI</div>
+      <p class="scard-desc">Análisis en tiempo real que cuantifican y predicen riesgos operacionales, ambientales y de seguridad en pozos y ductos activos.</p>
+      <div class="scard-tags">
+        <span class="tag">Risk Scoring</span>
+        <span class="tag">HSE Analytics</span>
+        <span class="tag">Real-time Alerts</span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-num">03</div>
+      <div class="scard-icon">📊</div>
+      <div class="scard-name">Optimización de Producción</div>
+      <p class="scard-desc">Algoritmos que maximizan el rendimiento de yacimientos y eficiencia de extracción usando datos sísmicos e históricos de producción.</p>
+      <div class="scard-tags">
+        <span class="tag">Reservoir Modeling</span>
+        <span class="tag">Digital Twin</span>
+        <span class="tag">Rate Optimization</span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-num">04</div>
+      <div class="scard-icon">🔗</div>
+      <div class="scard-name">Integridad de Ductos</div>
+      <p class="scard-desc">Monitoreo inteligente con visión computacional y análisis de señales para detección temprana de corrosión y fugas en infraestructura.</p>
+      <div class="scard-tags">
+        <span class="tag">Pipeline AI</span>
+        <span class="tag">Corrosion Detection</span>
+        <span class="tag">Leak Prevention</span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-num">05</div>
+      <div class="scard-icon">🧠</div>
+      <div class="scard-name">Decision Intelligence</div>
+      <p class="scard-desc">Agentes de IA que procesan datos multivariable para asistir decisiones ejecutivas en tiempo real sobre inversión y gestión de activos.</p>
+      <div class="scard-tags">
+        <span class="tag">LLM Agents</span>
+        <span class="tag">RAG Systems</span>
+        <span class="tag">Executive Dashboards</span>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-num">06</div>
+      <div class="scard-icon">🌐</div>
+      <div class="scard-name">ESG & Compliance AI</div>
+      <p class="scard-desc">Automatización del reporting ambiental con modelos que monitorean emisiones, consumo energético y KPIs de sostenibilidad regulatoria.</p>
+      <div class="scard-tags">
+        <span class="tag">Emissions Tracking</span>
+        <span class="tag">Auto-Reporting</span>
+        <span class="tag">Regulatory AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROP -->
+<section class="value" id="valor">
+  <div class="value-img-wrap">
+    <img class="value-img"
+      src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=900&q=80&auto=format&fit=crop"
+      alt="AI data networks" loading="lazy">
+    <div class="value-label">
+      <div>
+        <div class="vl-num">$2.8B</div>
+      </div>
+      <div class="vl-text">Valor en activos energéticos gestionados con IA</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="label">Propuesta de Valor</div>
+    <h2 class="sec-title">EL PODER DE LA IA<br>EN ENERGÍA</h2>
+    <p style="font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;">La industria energética opera en entornos de altísima complejidad. Cada decisión tiene consecuencias críticas — operativas, financieras y ambientales.</p>
+    <ul class="value-points">
+      <li class="vp">
+        <div class="vp-num">01</div>
+        <div>
+          <div class="vp-title">Reducción de Costos Operativos</div>
+          <p class="vp-text">Modelos predictivos reducen OPEX hasta un 30–45% eliminando paradas no planificadas y optimizando mantenimiento preventivo.</p>
+        </div>
+      </li>
+      <li class="vp">
+        <div class="vp-num">02</div>
+        <div>
+          <div class="vp-title">Mitigación de Riesgos en Tiempo Real</div>
+          <p class="vp-text">Detección y clasificación de riesgos operacionales con latencia sub-500ms. Alertas que protegen vidas, activos y reputación corporativa.</p>
+        </div>
+      </li>
+      <li class="vp">
+        <div class="vp-num">03</div>
+        <div>
+          <div class="vp-title">Maximización de Producción</div>
+          <p class="vp-text">Algoritmos de optimización continua que incrementan el factor de recuperación y eficiencia de extracción con decisiones basadas en datos.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="equipo">
+  <div class="team-header">
+    <div>
+      <div class="label">Equipo de Élite</div>
+      <h2 class="sec-title">SOCIOS EXPERTOS.<br>RESULTADOS REALES.</h2>
+    </div>
+    <p>Un equipo de clase mundial que combina ingeniería de alto nivel, estrategia de negocios y vanguardia tecnológica para proyectos de gran envergadura.</p>
+  </div>
+
+  <div class="team-grid">
+    <div class="tcard">
+      <div class="tcard-initial">IT</div>
+      <div class="tcard-role">Ingeniería & Tecnología</div>
+      <div class="tcard-name">Ingenieros ITBA</div>
+      <div class="tcard-inst">Instituto Tecnológico de Buenos Aires</div>
+      <p class="tcard-bio">Equipo de ingenieros especializados en sistemas de control, automatización industrial y arquitectura de datos para entornos críticos de O&G. Experiencia directa en yacimientos de Vaca Muerta y cuencas del sur.</p>
+    </div>
+    <div class="tcard">
+      <div class="tcard-initial">JC</div>
+      <div class="tcard-role">Estrategia de Negocios</div>
+      <div class="tcard-name">Jorge Colla</div>
+      <div class="tcard-inst">Universidad de San Andrés — Director, Carrera de Negocios</div>
+      <p class="tcard-bio">Director de la carrera de Negocios en UDESA. Especialista en estrategia corporativa, transformación organizacional y gestión de proyectos de alta complejidad en industrias reguladas y de capital intensivo.</p>
+    </div>
+    <div class="tcard">
+      <div class="tcard-initial">GF</div>
+      <div class="tcard-role">AI Strategy & Innovation</div>
+      <div class="tcard-name">Gonzalo Farrus</div>
+      <div class="tcard-inst">Founder, AdSmart AI · IAB USA Expert Programmatic</div>
+      <p class="tcard-bio">Pioneer en estrategia tecnológica para LATAM. 12 años lanzando industrias al uso de tecnologías de vanguardia. Certificación IAB USA Expert Programmatic (The Washington Post, 2014). Especialista en AI-Driven para sectores de alta complejidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="expertise" id="expertise">
+  <div class="expertise-inner">
+    <div class="exp-text">
+      <div class="label">Track Record</div>
+      <h2 class="sec-title">12 AÑOS<br>IMPULSANDO<br>INDUSTRIAS</h2>
+      <p>Desde 2012, <strong>AdSmart</strong> ha sido el puente entre las mejores estrategias tecnológicas globales y su implementación efectiva en el mercado latinoamericano.</p>
+      <p>No somos consultores genéricos. Somos <strong>especialistas en adopción tecnológica acelerada</strong> que combinan visión estratégica con ejecución técnica de alto nivel.</p>
+      <p>Para el sector <strong>Oil & Gas</strong>, esto significa no solo instalar tecnología, sino redefinir procesos, capacitar equipos y garantizar la adopción real que genera valor medible.</p>
+      <div class="industries">
+        <span class="ind">Oil & Gas</span>
+        <span class="ind">Banking</span>
+        <span class="ind">Automotive</span>
+        <span class="ind">Mining</span>
+        <span class="ind">Mass Consumer</span>
+        <span class="ind">Wellness</span>
+      </div>
+    </div>
+    <div class="exp-stats">
+      <div class="estat">
+        <div class="estat-num">12+</div>
+        <div class="estat-label">Años de Expertise en LATAM</div>
+      </div>
+      <div class="estat">
+        <div class="estat-num">28M</div>
+        <div class="estat-label">Registros Determinísticos Datiko</div>
+      </div>
+      <div class="estat">
+        <div class="estat-num">6</div>
+        <div class="estat-label">Verticales de Industria Dominadas</div>
+      </div>
+      <div class="estat">
+        <div class="estat-num">3×</div>
+        <div class="estat-label">ROI Promedio — Primeros 12 Meses</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="process-head">
+    <div class="label">Metodología</div>
+    <h2 class="sec-title">CÓMO TRABAJAMOS</h2>
+    <p>Una metodología probada que minimiza la disrupción operativa y maximiza la velocidad de adopción de IA en entornos industriales complejos.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">01</div>
+      <div class="step-title">Diagnóstico Operacional</div>
+      <p class="step-text">Auditoría profunda de procesos, infraestructura de datos y madurez digital. Identificamos quick wins y el roadmap de mayor impacto.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <div class="step-title">Diseño de Solución AI</div>
+      <p class="step-text">Arquitectura de modelos y pipelines de datos a medida. Sin soluciones genéricas: cada implementación es diseñada para el contexto específico.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <div class="step-title">Implementación Gradual</div>
+      <p class="step-text">Deploy por fases con validación continua. Integración con SCADA, ERP y sistemas legacy sin disrupciones durante la transición operativa.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">04</div>
+      <div class="step-title">Optimización Continua</div>
+      <p class="step-text">Monitoreo permanente, reentrenamiento de modelos y expansión del scope. La IA mejora con cada ciclo operativo completado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contacto">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <div class="label">Próximo Paso</div>
+      <h2 class="cta-title">LISTO PARA<br>TRANSFORMAR TU<br>OPERACIÓN</h2>
+      <p class="cta-sub">Agendá una sesión ejecutiva de 45 minutos con nuestro equipo. Sin compromiso, con diagnóstico real de oportunidades de IA para tu operación.</p>
+    </div>
+    <div class="cta-form">
+      <input type="email" class="cta-input" placeholder="tu@empresa.com.ar">
+      <a href="mailto:gfarrus@adsmartm.com" class="btn-dark">Agendar Ahora →</a>
+      <p class="cta-note">O escribinos: gfarrus@adsmartm.com · adsmartm.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="logo" href="#">
+        <span class="logo-text">AdSmart<span class="logo-dot">•</span></span>
+      </a>
+      <p>Inteligencia Artificial para la industria energética.<br>Buenos Aires, Argentina · Delaware, USA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#">Mantenimiento Predictivo</a></li>
+        <li><a href="#">Gestión de Riesgos</a></li>
+        <li><a href="#">Optimización de Producción</a></li>
+        <li><a href="#">Integridad de Ductos</a></li>
+        <li><a href="#">Decision Intelligence</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre AdSmart</a></li>
+        <li><a href="#">Equipo</a></li>
+        <li><a href="#">Casos de Éxito</a></li>
+        <li><a href="mailto:gfarrus@adsmartm.com">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Conectar</h4>
+      <ul>
+        <li><a href="https://adsmartm.com" target="_blank">adsmartm.com</a></li>
+        <li><a href="https://os.adsmartm.com" target="_blank">os.adsmartm.com</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 AdSmart Media · Buenos Aires · Delaware</span>
+    <span class="footer-tagline">Machine Results. Delivered.</span>
+  </div>
+</footer>
+
+</body>
+</html>
