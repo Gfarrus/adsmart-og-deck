@@ -191,10 +191,27 @@ nav {
 
 .hero-title .t1 { color: var(--white); display: block; }
 .hero-title .t2 { color: var(--orange); display: block; }
-.hero-title .t3 { 
+.hero-title .t3 {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--azure);
   display: block;
+  position: relative;
+  animation: electricFlicker 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(74,158,232,0.4));
+}
+
+@keyframes electricFlicker {
+  0%   { filter: drop-shadow(0 0 4px rgba(74,158,232,0.3)) drop-shadow(0 0 12px rgba(74,158,232,0.1)); -webkit-text-stroke-color: #4A9EE8; }
+  15%  { filter: drop-shadow(0 0 10px rgba(74,158,232,0.7)) drop-shadow(0 0 24px rgba(74,158,232,0.3)); -webkit-text-stroke-color: #7BBFEF; }
+  16%  { filter: drop-shadow(0 0 2px rgba(74,158,232,0.2)); -webkit-text-stroke-color: #3A8ED8; }
+  17%  { filter: drop-shadow(0 0 12px rgba(74,158,232,0.8)) drop-shadow(0 0 28px rgba(74,158,232,0.4)); -webkit-text-stroke-color: #8DCFFF; }
+  30%  { filter: drop-shadow(0 0 6px rgba(74,158,232,0.4)) drop-shadow(0 0 16px rgba(74,158,232,0.15)); -webkit-text-stroke-color: #4A9EE8; }
+  60%  { filter: drop-shadow(0 0 4px rgba(74,158,232,0.3)) drop-shadow(0 0 10px rgba(74,158,232,0.1)); -webkit-text-stroke-color: #4A9EE8; }
+  75%  { filter: drop-shadow(0 0 8px rgba(74,158,232,0.55)) drop-shadow(0 0 20px rgba(74,158,232,0.2)); -webkit-text-stroke-color: #6BB3F0; }
+  76%  { filter: drop-shadow(0 0 2px rgba(74,158,232,0.15)); -webkit-text-stroke-color: #3A8ED8; }
+  77%  { filter: drop-shadow(0 0 10px rgba(74,158,232,0.7)) drop-shadow(0 0 22px rgba(74,158,232,0.3)); -webkit-text-stroke-color: #7BBFEF; }
+  90%  { filter: drop-shadow(0 0 4px rgba(74,158,232,0.3)) drop-shadow(0 0 12px rgba(74,158,232,0.1)); -webkit-text-stroke-color: #4A9EE8; }
+  100% { filter: drop-shadow(0 0 4px rgba(74,158,232,0.3)) drop-shadow(0 0 12px rgba(74,158,232,0.1)); -webkit-text-stroke-color: #4A9EE8; }
 }
 
 .hero-desc {
@@ -1071,7 +1088,6 @@ footer {
   <div class="services-grid">
     <div class="scard">
       <div class="scard-num">01</div>
-      <div class="scard-icon">⚡</div>
       <div class="scard-name">Mantenimiento Predictivo</div>
       <p class="scard-desc">Modelos ML que anticipan fallas en equipos críticos — válvulas, turbinas, compresores — reduciendo paradas no planificadas hasta un 45%.</p>
       <div class="scard-tags">
@@ -1082,7 +1098,6 @@ footer {
     </div>
     <div class="scard">
       <div class="scard-num">02</div>
-      <div class="scard-icon">🛡</div>
       <div class="scard-name">Gestión de Riesgos AI</div>
       <p class="scard-desc">Análisis en tiempo real que cuantifican y predicen riesgos operacionales, ambientales y de seguridad en pozos y ductos activos.</p>
       <div class="scard-tags">
@@ -1093,7 +1108,6 @@ footer {
     </div>
     <div class="scard">
       <div class="scard-num">03</div>
-      <div class="scard-icon">📊</div>
       <div class="scard-name">Optimización de Producción</div>
       <p class="scard-desc">Algoritmos que maximizan el rendimiento de yacimientos y eficiencia de extracción usando datos sísmicos e históricos de producción.</p>
       <div class="scard-tags">
@@ -1104,7 +1118,6 @@ footer {
     </div>
     <div class="scard">
       <div class="scard-num">04</div>
-      <div class="scard-icon">🔗</div>
       <div class="scard-name">Integridad de Ductos</div>
       <p class="scard-desc">Monitoreo inteligente con visión computacional y análisis de señales para detección temprana de corrosión y fugas en infraestructura.</p>
       <div class="scard-tags">
@@ -1115,7 +1128,6 @@ footer {
     </div>
     <div class="scard">
       <div class="scard-num">05</div>
-      <div class="scard-icon">🧠</div>
       <div class="scard-name">Decision Intelligence</div>
       <p class="scard-desc">Agentes de IA que procesan datos multivariable para asistir decisiones ejecutivas en tiempo real sobre inversión y gestión de activos.</p>
       <div class="scard-tags">
@@ -1126,7 +1138,6 @@ footer {
     </div>
     <div class="scard">
       <div class="scard-num">06</div>
-      <div class="scard-icon">🌐</div>
       <div class="scard-name">ESG & Compliance AI</div>
       <p class="scard-desc">Automatización del reporting ambiental con modelos que monitorean emisiones, consumo energético y KPIs de sostenibilidad regulatoria.</p>
       <div class="scard-tags">
@@ -1194,25 +1205,22 @@ footer {
 
   <div class="team-grid">
     <div class="tcard">
-      <div class="tcard-initial">IT</div>
-      <div class="tcard-role">Ingeniería & Tecnología</div>
-      <div class="tcard-name">Ingenieros ITBA</div>
+      <div class="tcard-role">Ingeniería de Procesos & Automatización</div>
+      <div class="tcard-name">Socios ITBA</div>
       <div class="tcard-inst">Instituto Tecnológico de Buenos Aires</div>
-      <p class="tcard-bio">Equipo de ingenieros especializados en sistemas de control, automatización industrial y arquitectura de datos para entornos críticos de O&G. Experiencia directa en yacimientos de Vaca Muerta y cuencas del sur.</p>
+      <p class="tcard-bio">Ingenieros especializados en automatización industrial, sistemas de control y arquitectura de datos para entornos críticos de O&G. Experiencia directa en yacimientos de Vaca Muerta, cuencas del sur y proyectos de infraestructura energética de gran escala.</p>
     </div>
     <div class="tcard">
-      <div class="tcard-initial">JC</div>
-      <div class="tcard-role">Estrategia de Negocios</div>
-      <div class="tcard-name">Jorge Colla</div>
-      <div class="tcard-inst">Universidad de San Andrés — Director, Carrera de Negocios</div>
-      <p class="tcard-bio">Director de la carrera de Negocios en UDESA. Especialista en estrategia corporativa, transformación organizacional y gestión de proyectos de alta complejidad en industrias reguladas y de capital intensivo.</p>
+      <div class="tcard-role">Estrategia Corporativa & Negocios</div>
+      <div class="tcard-name">Socios UDESA</div>
+      <div class="tcard-inst">Universidad de San Andrés — Facultad de Negocios</div>
+      <p class="tcard-bio">Expertos en estrategia corporativa, transformación organizacional y gestión de proyectos de alta complejidad. Especialistas en industrias reguladas, capital intensivo y estructuración de joint ventures en el sector energético latinoamericano.</p>
     </div>
     <div class="tcard">
-      <div class="tcard-initial">GF</div>
-      <div class="tcard-role">AI Strategy & Innovation</div>
-      <div class="tcard-name">Gonzalo Farrus</div>
-      <div class="tcard-inst">Founder, AdSmart AI · IAB USA Expert Programmatic</div>
-      <p class="tcard-bio">Pioneer en estrategia tecnológica para LATAM. 12 años lanzando industrias al uso de tecnologías de vanguardia. Certificación IAB USA Expert Programmatic (The Washington Post, 2014). Especialista en AI-Driven para sectores de alta complejidad.</p>
+      <div class="tcard-role">Expertise Upstream & Midstream</div>
+      <div class="tcard-name">Expertos Oil & Gas</div>
+      <div class="tcard-inst">Vaca Muerta · Cuenca Neuquina · Midstream LATAM</div>
+      <p class="tcard-bio">Profesionales con trayectoria en operadoras y contratistas líderes del sector. Conocimiento profundo de operaciones upstream, integridad de ductos, HSE y regulación en Argentina y LATAM. El puente entre la tecnología y la realidad del campo.</p>
     </div>
   </div>
 </section>
