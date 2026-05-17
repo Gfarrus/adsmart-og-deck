@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SMARTM — Investor Deck</title>
+<style>
+:root{
+  --bg:#05070A;--bg-2:#0A0E13;--ink:#E8EEF5;--mute:#7A8794;
+  --line:rgba(232,238,245,.08);--accent:#FF6A00;--accent-2:#00E0FF;
+  --grid:rgba(255,255,255,.035);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;padding:7vh 8vw;
+  opacity:0;pointer-events:none;transition:opacity .5s ease;
+  display:flex;flex-direction:column;justify-content:center;
+  background:
+    radial-gradient(1200px 600px at 80% 10%,rgba(255,106,0,.08),transparent 60%),
+    radial-gradient(900px 500px at 10% 90%,rgba(0,224,255,.06),transparent 60%),
+    linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);
+}
+.slide.active{opacity:1;pointer-events:auto}
+.grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at center,black 40%,transparent 85%);
+  pointer-events:none;
+}
+.eyebrow{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--accent);display:inline-block}
+h1{font-weight:200;font-size:clamp(38px,6vw,90px);line-height:1;letter-spacing:-.02em;margin-bottom:22px}
+h1 .accent,.accent{color:var(--accent)}
+h2{font-weight:200;font-size:clamp(26px,3.4vw,50px);line-height:1.06;letter-spacing:-.015em;margin-bottom:28px}
+p.lead{font-size:clamp(14px,1.15vw,19px);color:var(--mute);max-width:780px;line-height:1.6;font-weight:300}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent);padding:26px;border-radius:3px}
+.card .num{font-size:10px;color:var(--accent);letter-spacing:.3em;margin-bottom:14px;display:block}
+.card h3{font-size:17px;font-weight:400;margin-bottom:9px;letter-spacing:-.01em}
+.card p{font-size:13px;color:var(--mute);line-height:1.6;font-weight:300}
+.stat{padding:20px 0;border-top:1px solid var(--line)}
+.stat .v{font-size:clamp(32px,4vw,58px);font-weight:200;letter-spacing:-.02em;line-height:1}
+.stat .v .unit{font-size:.4em;color:var(--mute);margin-left:4px}
+.stat .l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-top:7px}
+ul.bullets{list-style:none;padding:0}
+ul.bullets li{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink);display:flex;align-items:center;gap:13px;font-weight:300}
+ul.bullets li::before{content:"";width:6px;height:6px;background:var(--accent);flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+table th,table td{padding:13px 15px;text-align:left;border-bottom:1px solid var(--line)}
+table th{font-weight:500;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
+table td{color:var(--ink);font-weight:300}
+table tr td:first-child{color:var(--accent);font-weight:400}
+.bar-row{display:flex;align-items:center;gap:14px;padding:9px 0}
+.bar-row .label{width:155px;font-size:11.5px;color:var(--mute);letter-spacing:.08em}
+.bar-track{flex:1;height:5px;background:rgba(255,255,255,.04);overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.bar-row .val{width:55px;text-align:right;font-family:monospace;font-size:11px;color:var(--ink)}
+.latam{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.latam .y{font-family:monospace;color:var(--accent);font-size:10.5px;letter-spacing:.18em;width:76px}
+.latam .c{flex:1;font-weight:400}
+.latam .n{color:var(--mute);font-size:11.5px}
+.quote{font-size:clamp(22px,2.4vw,36px);font-weight:200;line-height:1.3;letter-spacing:-.01em;max-width:1100px}
+.cover-meta{margin-top:50px;display:flex;gap:44px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px;max-width:900px}
+.cover-meta .l{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:7px}
+.cover-meta .v{font-size:13.5px;color:var(--ink);font-weight:400}
+.scan{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--accent),transparent);opacity:.35;animation:scan 9s linear infinite}
+@keyframes scan{0%{left:-2%}100%{left:102%}}
+.footline{position:absolute;bottom:22px;left:8vw;right:8vw;display:flex;justify-content:space-between;font-size:9.5px;color:var(--mute);letter-spacing:.3em;text-transform:uppercase;border-top:1px solid var(--line);padding-top:12px}
+.slide.cover .footline{display:none}
+/* NAV */
+.nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:50;background:rgba(10,14,19,.75);backdrop-filter:blur(10px);border:1px solid var(--line);padding:9px 16px;border-radius:100px}
+.nav button{background:none;border:none;color:var(--ink);cursor:pointer;font-size:13px;padding:5px 8px;letter-spacing:.1em}
+.nav .count{font-family:monospace;font-size:10.5px;color:var(--mute);letter-spacing:.15em}
+.brand{position:fixed;top:22px;left:28px;z-index:50;font-weight:600;letter-spacing:.3em;font-size:12.5px}
+.brand .dot{color:var(--accent)}
+.page-num{position:fixed;top:26px;right:28px;z-index:50;font-family:monospace;font-size:10.5px;color:var(--mute);letter-spacing:.2em}
+/* LANG TOGGLE */
+.lang-toggle{
+  position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;gap:0;border:1px solid var(--line);border-radius:100px;overflow:hidden;
+  background:rgba(10,14,19,.75);backdrop-filter:blur(10px);
+}
+.lang-toggle button{
+  background:none;border:none;color:var(--mute);cursor:pointer;
+  font-size:10px;letter-spacing:.25em;text-transform:uppercase;padding:7px 16px;
+  transition:color .2s,background .2s;
+}
+.lang-toggle button.active{background:var(--accent);color:#fff}
+/* language visibility */
+.en,.es{display:none}
+body.lang-en .en{display:contents}
+body.lang-es .es{display:contents}
+/* for block-level elements that need display:block */
+.en-block,.es-block{display:none}
+body.lang-en .en-block{display:block}
+body.lang-es .es-block{display:block}
+.en-flex,.es-flex{display:none}
+body.lang-en .en-flex{display:flex}
+body.lang-es .es-flex{display:flex}
+.en-grid,.es-grid{display:none}
+body.lang-en .en-grid{display:grid}
+body.lang-es .es-grid{display:grid}
+.en-table,.es-table{display:none}
+body.lang-en .en-table{display:table}
+body.lang-es .es-table{display:table}
+</style>
+</head>
+<body class="lang-en">
+
+<div class="brand">SMART<span class="dot">·</span>M</div>
+<div class="page-num" id="pageNum">01 / 14</div>
+
+<div class="lang-toggle">
+  <button id="btnEN" class="active" onclick="setLang('en')">EN</button>
+  <button id="btnES" onclick="setLang('es')">ES</button>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ─────────── 1. COVER ─────────── -->
+<section class="slide cover active">
+  <div class="grid-bg"></div><div class="scan"></div>
+  <div class="eyebrow">
+    <span class="en">Investor Deck · Confidential · 2026</span>
+    <span class="es">Deck para Inversores · Confidencial · 2026</span>
+  </div>
+  <h1>
+    <span class="en">Intelligence for the<br/><span class="accent">unconventional</span> energy frontier.</span>
+    <span class="es">Inteligencia para la frontera<br/>energética <span class="accent">no convencional</span>.</span>
+  </h1>
+  <p class="lead">
+    <span class="en">AI-driven operational and commercial infrastructure for the Vaca Muerta upstream ecosystem. Built on the ground, in Neuquén.</span>
+    <span class="es">Infraestructura operacional y comercial impulsada por IA para el ecosistema upstream de Vaca Muerta. Construida en el territorio, en Neuquén.</span>
+  </p>
+  <div class="cover-meta">
+    <div><div class="l"><span class="en">HQ</span><span class="es">SEDE</span></div><div class="v">Neuquén · Vaca Muerta Tech Hub</div></div>
+    <div><div class="l">OPS</div><div class="v">Buenos Aires · LATAM</div></div>
+    <div><div class="l"><span class="en">SECTOR</span><span class="es">SECTOR</span></div><div class="v">AI · Energy · Industrial Automation</div></div>
+    <div><div class="l"><span class="en">STAGE</span><span class="es">ETAPA</span></div><div class="v">Seed / Series A</div></div>
+  </div>
+</section>
+
+<!-- ─────────── 2. MARKET OPPORTUNITY ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow">
+    <span class="en">01 — Market Opportunity</span>
+    <span class="es">01 — Oportunidad de Mercado</span>
+  </div>
+  <h2>
+    <span class="en">The second-largest shale play on Earth<br/>is being built <span class="accent">right now</span>.</span>
+    <span class="es">El segundo reservorio shale del mundo<br/>se está construyendo <span class="accent">ahora mismo</span>.</span>
+  </h2>
+  <div class="grid-4" style="margin-top:36px">
+    <div class="stat"><div class="v">USD 30B<span class="unit">+</span></div><div class="l"><span class="en">Capex 2025–2030</span><span class="es">Capex 2025–2030</span></div></div>
+    <div class="stat"><div class="v">1.5M<span class="unit">bbl/d</span></div><div class="l"><span class="en">Production target 2030</span><span class="es">Meta de producción 2030</span></div></div>
+    <div class="stat"><div class="v">700<span class="unit">+</span></div><div class="l"><span class="en">Suppliers in ecosystem</span><span class="es">Proveedores en el ecosistema</span></div></div>
+    <div class="stat"><div class="v">USD 4B<span class="unit">/yr</span></div><div class="l"><span class="en">Addressable services spend</span><span class="es">Gasto en servicios direccionable</span></div></div>
+  </div>
+  <p class="lead" style="margin-top:40px">
+    <span class="en">Operators are racing to industrialize Vaca Muerta. Every barrel demands more data, more automation, more decisions per second. The AI infrastructure layer is still being written.</span>
+    <span class="es">Los operadores compiten por industrializar Vaca Muerta. Cada barril exige más datos, más automatización, más decisiones por segundo. La capa de infraestructura de IA aún está por escribirse.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Market</span><span class="es">Mercado</span></span></div>
+</section>
+
+<!-- ─────────── 3. PROBLEM ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">02 — Problem</span><span class="es">02 — Problema</span></div>
+  <h2>
+    <span class="en">Vaca Muerta runs on <span class="accent">analog reflexes</span><br/>at digital scale.</span>
+    <span class="es">Vaca Muerta opera con <span class="accent">reflejos analógicos</span><br/>a escala digital.</span>
+  </h2>
+  <div class="grid-3" style="margin-top:36px">
+    <div class="card">
+      <span class="num">/ 01</span>
+      <h3><span class="en">Operators</span><span class="es">Operadores</span></h3>
+      <p>
+        <span class="en">Field decisions still rely on manual reports, fragmented telemetry and reactive maintenance. AI pilots stall before reaching production.</span>
+        <span class="es">Las decisiones de campo siguen dependiendo de reportes manuales, telemetría fragmentada y mantenimiento reactivo. Los pilotos de IA no llegan a producción.</span>
+      </p>
+    </div>
+    <div class="card">
+      <span class="num">/ 02</span>
+      <h3><span class="en">Service Companies</span><span class="es">Empresas de Servicios</span></h3>
+      <p>
+        <span class="en">No real-time visibility on tenders, decision-makers or competitor moves. Commercial cycles last months and depend on personal contacts.</span>
+        <span class="es">Sin visibilidad en tiempo real de licitaciones, tomadores de decisión ni movimientos de la competencia. Los ciclos comerciales duran meses y dependen de contactos personales.</span>
+      </p>
+    </div>
+    <div class="card">
+      <span class="num">/ 03</span>
+      <h3><span class="en">Suppliers</span><span class="es">Proveedores</span></h3>
+      <p>
+        <span class="en">Generic marketing burns budget on audiences that don't operate wells. Programmatic platforms ignore B2B industrial decision-makers entirely.</span>
+        <span class="es">El marketing genérico quema presupuesto en audiencias que no operan pozos. Las plataformas programáticas ignoran por completo a los tomadores de decisión industriales B2B.</span>
+      </p>
+    </div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Problem</span><span class="es">Problema</span></span></div>
+</section>
+
+<!-- ─────────── 4. SOLUTION ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">03 — Solution</span><span class="es">03 — Solución</span></div>
+  <h2>
+    <span class="en">One operating system. <span class="accent">Two engines.</span></span>
+    <span class="es">Un sistema operativo. <span class="accent">Dos motores.</span></span>
+  </h2>
+  <div class="grid-2" style="margin-top:36px">
+    <div class="card" style="padding:32px">
+      <span class="num"><span class="en">/ ENGINE 01 — OPERATIONS</span><span class="es">/ MOTOR 01 — OPERACIONES</span></span>
+      <h3 style="font-size:22px;margin-bottom:16px"><span class="en">AI for the Field</span><span class="es">IA para el Campo</span></h3>
+      <ul class="bullets">
+        <li><span class="en">Predictive analytics on wells & facilities</span><span class="es">Analytics predictivo en pozos e instalaciones</span></li>
+        <li><span class="en">Industrial automation & SCADA intelligence</span><span class="es">Automatización industrial e inteligencia SCADA</span></li>
+        <li><span class="en">Fleet telematics & logistics optimization</span><span class="es">Telemática de flota y optimización logística</span></li>
+        <li><span class="en">Computer vision for industrial safety (HSE)</span><span class="es">Visión artificial para seguridad industrial (HSE)</span></li>
+        <li><span class="en">AI video analytics on operational sites</span><span class="es">Video analítica con IA en sitios operacionales</span></li>
+        <li><span class="en">Custom AI development for energy majors</span><span class="es">Desarrollo de IA a medida para grandes operadoras</span></li>
+      </ul>
+    </div>
+    <div class="card" style="padding:32px">
+      <span class="num"><span class="en">/ ENGINE 02 — COMMERCIAL</span><span class="es">/ MOTOR 02 — COMERCIAL</span></span>
+      <h3 style="font-size:22px;margin-bottom:16px"><span class="en">AI for the Pipeline</span><span class="es">IA para el Pipeline Comercial</span></h3>
+      <ul class="bullets">
+        <li><span class="en">Real-time tender & opportunity detection</span><span class="es">Detección en tiempo real de licitaciones y oportunidades</span></li>
+        <li><span class="en">Decision-maker mapping across operators</span><span class="es">Mapeo de tomadores de decisión en operadoras</span></li>
+        <li><span class="en">Automated outreach (Email + LinkedIn)</span><span class="es">Outreach automatizado (Email + LinkedIn)</span></li>
+        <li><span class="en">Hyper-segmented B2B advertising</span><span class="es">Publicidad B2B hipersegmentada</span></li>
+        <li><span class="en">Programmatic to industry decision-makers only</span><span class="es">Programático exclusivo para decisores de la industria</span></li>
+        <li><span class="en">Proprietary Vaca Muerta supplier graph</span><span class="es">Grafo propietario de proveedores de Vaca Muerta</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Solution</span><span class="es">Solución</span></span></div>
+</section>
+
+<!-- ─────────── 5. AI INFRASTRUCTURE ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">04 — AI Infrastructure</span><span class="es">04 — Infraestructura de IA</span></div>
+  <h2>
+    <span class="en">Built deterministic. <span class="accent">Built for production.</span></span>
+    <span class="es">Construida determinista. <span class="accent">Construida para producción.</span></span>
+  </h2>
+  <div class="grid-4" style="margin-top:36px">
+    <div class="card">
+      <span class="num">/ DATA</span>
+      <h3><span class="en">Proprietary Graph</span><span class="es">Grafo Propietario</span></h3>
+      <p><span class="en">Operators, service co's, wells, contracts, decision-makers — continuously enriched from public and on-ground sources.</span><span class="es">Operadoras, empresas de servicios, pozos, contratos, decisores — enriquecido continuamente desde fuentes públicas y de campo.</span></p>
+    </div>
+    <div class="card">
+      <span class="num">/ MODELS</span>
+      <h3><span class="en">Multi-Model Stack</span><span class="es">Stack Multimodelo</span></h3>
+      <p><span class="en">Foundation models for reasoning, vision models for HSE, time-series for predictive maintenance, embeddings for matching.</span><span class="es">Modelos fundacionales de razonamiento, visión para HSE, series temporales para mantenimiento predictivo, embeddings para matching.</span></p>
+    </div>
+    <div class="card">
+      <span class="num">/ AGENTS</span>
+      <h3><span class="en">Vertical Agents</span><span class="es">Agentes Verticales</span></h3>
+      <p><span class="en">RAG + tool-use agents trained on upstream terminology, regulation and procurement workflows specific to the basin.</span><span class="es">Agentes RAG entrenados en terminología upstream, regulación y flujos de procurement específicos de la cuenca.</span></p>
+    </div>
+    <div class="card">
+      <span class="num">/ EDGE</span>
+      <h3><span class="en">Field-Grade Deploy</span><span class="es">Deploy de Grado Campo</span></h3>
+      <p><span class="en">Edge inference for sites with intermittent connectivity. Security and compliance posture aligned to energy and banking standards.</span><span class="es">Inferencia edge para sitios con conectividad intermitente. Seguridad y compliance alineados a estándares energéticos y bancarios.</span></p>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:36px">
+    <span class="en">Determinism over hype. Every model is measured against operational ROI, not benchmarks.</span>
+    <span class="es">Determinismo sobre hype. Cada modelo se mide contra ROI operacional, no contra benchmarks.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Infrastructure</span><span class="es">Infraestructura</span></span></div>
+</section>
+
+<!-- ─────────── 6. BUSINESS MODEL ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">05 — Business Model</span><span class="es">05 — Modelo de Negocio</span></div>
+  <h2>
+    <span class="en">Three revenue streams. <span class="accent">One platform.</span></span>
+    <span class="es">Tres fuentes de ingresos. <span class="accent">Una plataforma.</span></span>
+  </h2>
+
+  <!-- EN table -->
+  <table class="en-table" style="margin-top:28px">
+    <thead><tr><th>Stream</th><th>Buyer</th><th>Pricing</th><th>Margin</th><th>ACV (USD)</th></tr></thead>
+    <tbody>
+      <tr><td>SaaS — Commercial Intelligence</td><td>Suppliers · Service co's</td><td>Tiered subscription</td><td>75–85%</td><td>12K – 60K</td></tr>
+      <tr><td>AI Operations Projects</td><td>Operators · Majors</td><td>Implementation + retainer</td><td>45–60%</td><td>120K – 800K</td></tr>
+      <tr><td>Programmatic & Media</td><td>Suppliers · OEMs</td><td>% of media + fee</td><td>40–55%</td><td>30K – 250K</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ES table -->
+  <table class="es-table" style="margin-top:28px">
+    <thead><tr><th>Línea</th><th>Comprador</th><th>Pricing</th><th>Margen</th><th>ACV (USD)</th></tr></thead>
+    <tbody>
+      <tr><td>SaaS — Inteligencia Comercial</td><td>Proveedores · Servicios</td><td>Suscripción escalonada</td><td>75–85%</td><td>12K – 60K</td></tr>
+      <tr><td>Proyectos de IA Operacional</td><td>Operadoras · Majors</td><td>Implementación + retainer</td><td>45–60%</td><td>120K – 800K</td></tr>
+      <tr><td>Programático & Media</td><td>Proveedores · OEMs</td><td>% media + fee</td><td>40–55%</td><td>30K – 250K</td></tr>
+    </tbody>
+  </table>
+
+  <p class="lead" style="margin-top:28px">
+    <span class="en">SaaS anchors recurring revenue. Operations projects deepen accounts. Media monetizes the same supplier graph at scale.</span>
+    <span class="es">El SaaS ancla ingresos recurrentes. Los proyectos operacionales profundizan cuentas. El media monetiza el mismo grafo de proveedores a escala.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Business Model</span><span class="es">Modelo de Negocio</span></span></div>
+</section>
+
+<!-- ─────────── 7. COMPETITIVE ADVANTAGE ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">06 — Competitive Advantage</span><span class="es">06 — Ventaja Competitiva</span></div>
+  <h2>
+    <span class="en">We're not selling AI to Vaca Muerta.<br/><span class="accent">We live in it.</span></span>
+    <span class="es">No le vendemos IA a Vaca Muerta.<br/><span class="accent">Vivimos en ella.</span></span>
+  </h2>
+  <div class="grid-3" style="margin-top:32px">
+    <div class="card"><span class="num">/ 01</span><h3><span class="en">Physical Presence</span><span class="es">Presencia Física</span></h3><p><span class="en">Offices inside Neuquén's technology district. Walking distance to operators, service yards and decision-makers.</span><span class="es">Oficinas dentro del distrito tecnológico de Neuquén. A minutos de operadoras, bases de servicios y tomadores de decisión.</span></p></div>
+    <div class="card"><span class="num">/ 02</span><h3><span class="en">Proprietary Data</span><span class="es">Datos Propietarios</span></h3><p><span class="en">Supplier graph and decision-maker map of the basin — impossible to replicate from Silicon Valley or Houston.</span><span class="es">Grafo de proveedores y mapa de decisores de la cuenca — imposible de replicar desde Silicon Valley o Houston.</span></p></div>
+    <div class="card"><span class="num">/ 03</span><h3><span class="en">Dual Stack</span><span class="es">Stack Dual</span></h3><p><span class="en">Operational AI + commercial AI under one roof. Competitors do one. We compound both.</span><span class="es">IA operacional + IA comercial bajo el mismo techo. Los competidores hacen una. Nosotros potenciamos las dos.</span></p></div>
+    <div class="card"><span class="num">/ 04</span><h3><span class="en">Ground Game</span><span class="es">Juego de Campo</span></h3><p><span class="en">Executive breakfasts, live demos, on-site workshops, field collaboration. Trust is built in person.</span><span class="es">Desayunos ejecutivos, demos en vivo, workshops on-site, colaboración de campo. La confianza se construye en persona.</span></p></div>
+    <div class="card"><span class="num">/ 05</span><h3><span class="en">Local Compliance</span><span class="es">Compliance Local</span></h3><p><span class="en">Regulatory, fiscal and operational fluency in Argentina. No friction in procurement or data residency.</span><span class="es">Fluidez regulatoria, fiscal y operativa en Argentina. Sin fricciones en procurement ni residencia de datos.</span></p></div>
+    <div class="card"><span class="num">/ 06</span><h3><span class="en">Speed</span><span class="es">Velocidad</span></h3><p><span class="en">From insight to production in weeks, not quarters. We deploy where global vendors are still scoping.</span><span class="es">De insight a producción en semanas, no trimestres. Desplegamos donde los vendors globales aún están relevando.</span></p></div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span>Moat</span></div>
+</section>
+
+<!-- ─────────── 8. GTM ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">07 — Go to Market</span><span class="es">07 — Go to Market</span></div>
+  <h2>
+    <span class="en">Land in the basin. <span class="accent">Expand by gravity.</span></span>
+    <span class="es">Aterrizar en la cuenca. <span class="accent">Expandir por gravedad.</span></span>
+  </h2>
+  <div class="grid-2" style="margin-top:36px;gap:56px">
+    <div>
+      <ul class="bullets">
+        <li><span class="en">Anchor 3–5 operators with high-ROI AI pilots</span><span class="es">Anclar 3–5 operadoras con pilotos de IA de alto ROI</span></li>
+        <li><span class="en">Convert ecosystem suppliers to SaaS subscriptions</span><span class="es">Convertir proveedores del ecosistema a suscripciones SaaS</span></li>
+        <li><span class="en">Monetize programmatic on the same supplier graph</span><span class="es">Monetizar programático sobre el mismo grafo de proveedores</span></li>
+        <li><span class="en">Executive breakfasts as monthly demand engine</span><span class="es">Desayunos ejecutivos como motor mensual de demanda</span></li>
+        <li><span class="en">On-site workshops embedded in operator HSE & ops</span><span class="es">Workshops on-site integrados en HSE y operaciones</span></li>
+        <li><span class="en">Channel partnerships with OEMs and EPCs</span><span class="es">Partnerships de canal con OEMs y EPCs</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:22px"><span class="en">Sales Motion</span><span class="es">Movimiento de Ventas</span></h3>
+      <div class="bar-row"><div class="label"><span class="en">Direct enterprise</span><span class="es">Enterprise directo</span></div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><div class="val">70%</div></div>
+      <div class="bar-row"><div class="label"><span class="en">Self-serve SaaS</span><span class="es">SaaS self-serve</span></div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><div class="val">20%</div></div>
+      <div class="bar-row"><div class="label"><span class="en">Channel & OEM</span><span class="es">Canal & OEM</span></div><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><div class="val">10%</div></div>
+      <p class="lead" style="margin-top:22px;font-size:12.5px"><span class="en">CAC payback &lt;9 months on SaaS. Land-and-expand averages 3.2x ACV by year two.</span><span class="es">Recupero de CAC &lt;9 meses en SaaS. Land-and-expand promedia 3.2x ACV al año dos.</span></p>
+    </div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span>GTM</span></div>
+</section>
+
+<!-- ─────────── 9. SCALABILITY ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">08 — Scalability</span><span class="es">08 — Escalabilidad</span></div>
+  <h2>
+    <span class="en">The platform compounds. <span class="accent">The basin compounds harder.</span></span>
+    <span class="es">La plataforma escala. <span class="accent">La cuenca escala más rápido.</span></span>
+  </h2>
+  <div class="grid-4" style="margin-top:36px">
+    <div class="stat"><div class="v">5x</div><div class="l"><span class="en">Drilling activity by 2030</span><span class="es">Actividad de perforación a 2030</span></div></div>
+    <div class="stat"><div class="v">3x</div><div class="l"><span class="en">Suppliers entering basin</span><span class="es">Proveedores ingresando a la cuenca</span></div></div>
+    <div class="stat"><div class="v">80%</div><div class="l"><span class="en">Gross margin SaaS at scale</span><span class="es">Margen bruto SaaS a escala</span></div></div>
+    <div class="stat"><div class="v">110%+</div><div class="l"><span class="en">Net revenue retention target</span><span class="es">Meta de retención neta de ingresos</span></div></div>
+  </div>
+  <p class="lead" style="margin-top:36px">
+    <span class="en">Every new operator unlocks new suppliers. Every supplier feeds the graph. Every graph node sharpens the AI. The flywheel is local, defensible and exportable.</span>
+    <span class="es">Cada nueva operadora desbloquea nuevos proveedores. Cada proveedor alimenta el grafo. Cada nodo del grafo afina la IA. El flywheel es local, defendible y exportable.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Scale</span><span class="es">Escala</span></span></div>
+</section>
+
+<!-- ─────────── 10. VACA MUERTA GROWTH ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">09 — Vaca Muerta Growth</span><span class="es">09 — Crecimiento de Vaca Muerta</span></div>
+  <h2>
+    <span class="en">A decade of <span class="accent">industrialization</span> just began.</span>
+    <span class="es">Una década de <span class="accent">industrialización</span> acaba de comenzar.</span>
+  </h2>
+  <div class="grid-2" style="margin-top:36px;gap:56px">
+    <div>
+      <ul class="bullets">
+        <li><span class="en">VMOS pipeline + LNG projects unlocking exports</span><span class="es">Oleoducto VMOS + proyectos LNG desbloqueando exportaciones</span></li>
+        <li><span class="en">RIGI framework attracting multi-billion FDI</span><span class="es">Régimen RIGI atrayendo FDI multibillonaria</span></li>
+        <li><span class="en">YPF, Vista, Pluspetrol, Pampa, Tecpetrol scaling activity</span><span class="es">YPF, Vista, Pluspetrol, Pampa, Tecpetrol escalando actividad</span></li>
+        <li><span class="en">International majors re-entering the basin</span><span class="es">Majors internacionales reingresando a la cuenca</span></li>
+        <li><span class="en">Supplier ecosystem expected to triple by 2030</span><span class="es">Se espera que el ecosistema de proveedores se triplique a 2030</span></li>
+        <li><span class="en">Critical talent and infrastructure concentrating in Neuquén</span><span class="es">Talento crítico e infraestructura concentrándose en Neuquén</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:22px"><span class="en">Basin Trajectory (bbl/d)</span><span class="es">Trayectoria Cuenca (bbl/d)</span></h3>
+      <div class="bar-row"><div class="label">2024</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><div class="val">~450k</div></div>
+      <div class="bar-row"><div class="label">2027</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="val">~900k</div></div>
+      <div class="bar-row"><div class="label">2030</div><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div><div class="val">1.5M+</div></div>
+      <p class="lead" style="margin-top:22px;font-size:12.5px"><span class="en">Each curve point is more decisions, more assets, more data — more SMARTM.</span><span class="es">Cada punto de la curva implica más decisiones, más activos, más datos — más SMARTM.</span></p>
+    </div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Basin</span><span class="es">Cuenca</span></span></div>
+</section>
+
+<!-- ─────────── 11. LATAM EXPANSION ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">10 — LATAM Expansion</span><span class="es">10 — Expansión LATAM</span></div>
+  <h2>
+    <span class="en">From Vaca Muerta <span class="accent">outward</span>.</span>
+    <span class="es">Desde Vaca Muerta <span class="accent">hacia afuera</span>.</span>
+  </h2>
+  <div style="margin-top:36px;max-width:920px">
+    <div class="latam"><div class="y">Y1–Y2</div><div class="c"><span class="en">Argentina · Vaca Muerta consolidation</span><span class="es">Argentina · Consolidación Vaca Muerta</span></div><div class="n"><span class="en">Operators + supplier SaaS + media</span><span class="es">Operadoras + SaaS proveedores + media</span></div></div>
+    <div class="latam"><div class="y">Y2–Y3</div><div class="c"><span class="en">Colombia · Llanos & Magdalena</span><span class="es">Colombia · Llanos & Magdalena</span></div><div class="n"><span class="en">Operational AI + HSE vision</span><span class="es">IA operacional + visión HSE</span></div></div>
+    <div class="latam"><div class="y">Y3–Y4</div><div class="c"><span class="en">Brazil · Pre-salt service ecosystem</span><span class="es">Brasil · Ecosistema pre-sal</span></div><div class="n"><span class="en">Commercial intelligence layer</span><span class="es">Capa de inteligencia comercial</span></div></div>
+    <div class="latam"><div class="y">Y4–Y5</div><div class="c"><span class="en">Mexico · Onshore + petrochemical</span><span class="es">México · Onshore + petroquímica</span></div><div class="n"><span class="en">Full platform deployment</span><span class="es">Despliegue full platform</span></div></div>
+    <div class="latam"><div class="y">Y5+</div><div class="c"><span class="en">Guyana · Permian-adjacent strategy</span><span class="es">Guyana · Estrategia adyacente al Pérmico</span></div><div class="n"><span class="en">Cross-basin supplier graph</span><span class="es">Grafo de proveedores multi-cuenca</span></div></div>
+  </div>
+  <p class="lead" style="margin-top:28px">
+    <span class="en">The playbook is portable. The data is proprietary. The category is open.</span>
+    <span class="es">El playbook es portable. Los datos son propietarios. La categoría está abierta.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span>LATAM</span></div>
+</section>
+
+<!-- ─────────── 12. WHY NOW ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">11 — Why Now</span><span class="es">11 — Por Qué Ahora</span></div>
+  <p class="quote">
+    <span class="en">The barrels are flowing. The capital is landing. The decision-makers are buying.<br/><span class="accent">The intelligence layer is empty.</span></span>
+    <span class="es">Los barriles fluyen. El capital aterriza. Los decisores están comprando.<br/><span class="accent">La capa de inteligencia está vacía.</span></span>
+  </p>
+  <div class="grid-4" style="margin-top:52px">
+    <div class="stat"><div class="v">RIGI</div><div class="l"><span class="en">Investment framework live</span><span class="es">Marco de inversión vigente</span></div></div>
+    <div class="stat"><div class="v">LNG</div><div class="l"><span class="en">Export window opening</span><span class="es">Ventana de exportación abriéndose</span></div></div>
+    <div class="stat"><div class="v">AI</div><div class="l"><span class="en">Production-ready stack</span><span class="es">Stack listo para producción</span></div></div>
+    <div class="stat"><div class="v">2026</div><div class="l"><span class="en">Window to own category</span><span class="es">Ventana para dominar la categoría</span></div></div>
+  </div>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Timing</span><span class="es">Timing</span></span></div>
+</section>
+
+<!-- ─────────── 13. THE ASK ─────────── -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow"><span class="en">12 — The Ask</span><span class="es">12 — La Propuesta</span></div>
+  <h2>
+    <span class="en">Capital to <span class="accent">capture the basin</span>.</span>
+    <span class="es">Capital para <span class="accent">capturar la cuenca</span>.</span>
+  </h2>
+  <div class="grid-3" style="margin-top:36px">
+    <div class="card">
+      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
+      <h3><span class="en">Product & AI</span><span class="es">Producto & IA</span></h3>
+      <p><span class="en">Scale data graph, vertical agents, vision models and edge deployment for operator-grade production environments.</span><span class="es">Escalar el grafo de datos, agentes verticales, modelos de visión y deploy edge para entornos de producción de nivel operadora.</span></p>
+    </div>
+    <div class="card">
+      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
+      <h3><span class="en">GTM & Field</span><span class="es">GTM & Campo</span></h3>
+      <p><span class="en">Neuquén HQ expansion, enterprise sales, customer engineering, executive ecosystem programs.</span><span class="es">Expansión de HQ Neuquén, ventas enterprise, ingeniería de clientes, programas ejecutivos de ecosistema.</span></p>
+    </div>
+    <div class="card">
+      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
+      <h3><span class="en">LATAM Beachhead</span><span class="es">Cabeza de Playa LATAM</span></h3>
+      <p><span class="en">Colombia and Brazil entry, partnership infrastructure, regulatory and compliance build-out.</span><span class="es">Entrada a Colombia y Brasil, infraestructura de partnerships, construcción regulatoria y de compliance.</span></p>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:32px">
+    <span class="en">SMARTM is positioned to become the operating system of the Latin American upstream — starting from the basin the world is watching.</span>
+    <span class="es">SMARTM está posicionada para convertirse en el sistema operativo del upstream latinoamericano — comenzando por la cuenca que el mundo observa.</span>
+  </p>
+  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">The Ask</span><span class="es">La Propuesta</span></span></div>
+</section>
+
+<!-- ─────────── 14. CLOSE ─────────── -->
+<section class="slide cover">
+  <div class="grid-bg"></div><div class="scan"></div>
+  <div class="eyebrow"><span class="en">— End of Deck</span><span class="es">— Fin del Deck</span></div>
+  <h1>SMART<span class="accent">·</span>M<br/><span style="font-size:.38em;color:var(--mute);font-weight:200;letter-spacing:.05em"><span class="en">Machine intelligence for the energy frontier.</span><span class="es">Inteligencia de máquinas para la frontera energética.</span></span></h1>
+  <div class="cover-meta">
+    <div><div class="l"><span class="en">Contact</span><span class="es">Contacto</span></div><div class="v">invest@smartm.ai</div></div>
+    <div><div class="l">HQ</div><div class="v">Neuquén Tech District</div></div>
+    <div><div class="l"><span class="en">Confidential</span><span class="es">Confidencial</span></div><div class="v">© SMARTM 2026</div></div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<!-- NAV -->
+<div class="nav">
+  <button id="prev">◀</button>
+  <span class="count" id="counter">01 / 14</span>
+  <button id="next">▶</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+const total=slides.length;
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=(n+total)%total;
+  slides[cur].classList.add('active');
+  const lbl=String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  document.getElementById('counter').textContent=lbl;
+  document.getElementById('pageNum').textContent=lbl;
+}
+document.getElementById('next').onclick=()=>show(cur+1);
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')show(cur+1);
+  if(e.key==='ArrowLeft')show(cur-1);
+});
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+  document.getElementById('btnES').classList.toggle('active',l==='es');
+}
+</script>
+</body>
+</html>
