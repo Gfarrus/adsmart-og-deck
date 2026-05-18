@@ -1,537 +1,978 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>SMARTM — Investor Deck</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AdSmart Industrial AI — Investor Deck</title>
 <style>
-:root{
-  --bg:#05070A;--bg-2:#0A0E13;--ink:#E8EEF5;--mute:#7A8794;
-  --line:rgba(232,238,245,.08);--accent:#FF6A00;--accent-2:#00E0FF;
-  --grid:rgba(255,255,255,.035);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--ink);font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;letter-spacing:.01em}
-.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
-.slide{
-  position:absolute;inset:0;padding:7vh 8vw;
-  opacity:0;pointer-events:none;transition:opacity .5s ease;
-  display:flex;flex-direction:column;justify-content:center;
-  background:
-    radial-gradient(1200px 600px at 80% 10%,rgba(255,106,0,.08),transparent 60%),
-    radial-gradient(900px 500px at 10% 90%,rgba(0,224,255,.06),transparent 60%),
-    linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);
-}
-.slide.active{opacity:1;pointer-events:auto}
-.grid-bg{
-  position:absolute;inset:0;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:radial-gradient(ellipse at center,black 40%,transparent 85%);
-  pointer-events:none;
-}
-.eyebrow{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:12px}
-.eyebrow::before{content:"";width:28px;height:1px;background:var(--accent);display:inline-block}
-h1{font-weight:200;font-size:clamp(38px,6vw,90px);line-height:1;letter-spacing:-.02em;margin-bottom:22px}
-h1 .accent,.accent{color:var(--accent)}
-h2{font-weight:200;font-size:clamp(26px,3.4vw,50px);line-height:1.06;letter-spacing:-.015em;margin-bottom:28px}
-p.lead{font-size:clamp(14px,1.15vw,19px);color:var(--mute);max-width:780px;line-height:1.6;font-weight:300}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.015),transparent);padding:26px;border-radius:3px}
-.card .num{font-size:10px;color:var(--accent);letter-spacing:.3em;margin-bottom:14px;display:block}
-.card h3{font-size:17px;font-weight:400;margin-bottom:9px;letter-spacing:-.01em}
-.card p{font-size:13px;color:var(--mute);line-height:1.6;font-weight:300}
-.stat{padding:20px 0;border-top:1px solid var(--line)}
-.stat .v{font-size:clamp(32px,4vw,58px);font-weight:200;letter-spacing:-.02em;line-height:1}
-.stat .v .unit{font-size:.4em;color:var(--mute);margin-left:4px}
-.stat .l{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-top:7px}
-ul.bullets{list-style:none;padding:0}
-ul.bullets li{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink);display:flex;align-items:center;gap:13px;font-weight:300}
-ul.bullets li::before{content:"";width:6px;height:6px;background:var(--accent);flex-shrink:0}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-table th,table td{padding:13px 15px;text-align:left;border-bottom:1px solid var(--line)}
-table th{font-weight:500;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
-table td{color:var(--ink);font-weight:300}
-table tr td:first-child{color:var(--accent);font-weight:400}
-.bar-row{display:flex;align-items:center;gap:14px;padding:9px 0}
-.bar-row .label{width:155px;font-size:11.5px;color:var(--mute);letter-spacing:.08em}
-.bar-track{flex:1;height:5px;background:rgba(255,255,255,.04);overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-.bar-row .val{width:55px;text-align:right;font-family:monospace;font-size:11px;color:var(--ink)}
-.latam{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px}
-.latam .y{font-family:monospace;color:var(--accent);font-size:10.5px;letter-spacing:.18em;width:76px}
-.latam .c{flex:1;font-weight:400}
-.latam .n{color:var(--mute);font-size:11.5px}
-.quote{font-size:clamp(22px,2.4vw,36px);font-weight:200;line-height:1.3;letter-spacing:-.01em;max-width:1100px}
-.cover-meta{margin-top:50px;display:flex;gap:44px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px;max-width:900px}
-.cover-meta .l{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:7px}
-.cover-meta .v{font-size:13.5px;color:var(--ink);font-weight:400}
-.scan{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--accent),transparent);opacity:.35;animation:scan 9s linear infinite}
-@keyframes scan{0%{left:-2%}100%{left:102%}}
-.footline{position:absolute;bottom:22px;left:8vw;right:8vw;display:flex;justify-content:space-between;font-size:9.5px;color:var(--mute);letter-spacing:.3em;text-transform:uppercase;border-top:1px solid var(--line);padding-top:12px}
-.slide.cover .footline{display:none}
-/* NAV */
-.nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:50;background:rgba(10,14,19,.75);backdrop-filter:blur(10px);border:1px solid var(--line);padding:9px 16px;border-radius:100px}
-.nav button{background:none;border:none;color:var(--ink);cursor:pointer;font-size:13px;padding:5px 8px;letter-spacing:.1em}
-.nav .count{font-family:monospace;font-size:10.5px;color:var(--mute);letter-spacing:.15em}
-.brand{position:fixed;top:22px;left:28px;z-index:50;font-weight:600;letter-spacing:.3em;font-size:12.5px}
-.brand .dot{color:var(--accent)}
-.page-num{position:fixed;top:26px;right:28px;z-index:50;font-family:monospace;font-size:10.5px;color:var(--mute);letter-spacing:.2em}
-/* LANG TOGGLE */
-.lang-toggle{
-  position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:100;
-  display:flex;gap:0;border:1px solid var(--line);border-radius:100px;overflow:hidden;
-  background:rgba(10,14,19,.75);backdrop-filter:blur(10px);
-}
-.lang-toggle button{
-  background:none;border:none;color:var(--mute);cursor:pointer;
-  font-size:10px;letter-spacing:.25em;text-transform:uppercase;padding:7px 16px;
-  transition:color .2s,background .2s;
-}
-.lang-toggle button.active{background:var(--accent);color:#fff}
-/* language visibility */
-.en,.es{display:none}
-body.lang-en .en{display:contents}
-body.lang-es .es{display:contents}
-/* for block-level elements that need display:block */
-.en-block,.es-block{display:none}
-body.lang-en .en-block{display:block}
-body.lang-es .es-block{display:block}
-.en-flex,.es-flex{display:none}
-body.lang-en .en-flex{display:flex}
-body.lang-es .es-flex{display:flex}
-.en-grid,.es-grid{display:none}
-body.lang-en .en-grid{display:grid}
-body.lang-es .es-grid{display:grid}
-.en-table,.es-table{display:none}
-body.lang-en .en-table{display:table}
-body.lang-es .es-table{display:table}
+  :root{
+    --bg:#05070A;
+    --bg-2:#0A0E13;
+    --ink:#E8EEF5;
+    --mute:#7A8794;
+    --line:rgba(232,238,245,0.08);
+    --accent:#FF6A00;
+    --accent-2:#00E0FF;
+    --grid:rgba(255,255,255,0.035);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Arial,sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.01em;
+  }
+  .deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+  .slide{
+    position:absolute;inset:0;
+    padding:7vh 8vw;
+    opacity:0;pointer-events:none;
+    transition:opacity .55s ease;
+    display:flex;flex-direction:column;justify-content:center;
+    background:
+      radial-gradient(1200px 600px at 80% 10%, rgba(255,106,0,.08), transparent 60%),
+      radial-gradient(900px 500px at 10% 90%, rgba(0,224,255,.06), transparent 60%),
+      linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%);
+  }
+  .slide.active{opacity:1;pointer-events:auto}
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse at center, black 40%, transparent 85%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-size:11px;letter-spacing:.35em;text-transform:uppercase;
+    color:var(--accent);font-weight:500;margin-bottom:24px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{
+    content:"";width:28px;height:1px;background:var(--accent);display:inline-block;
+  }
+  h1{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    font-weight:200;font-size:clamp(40px,6.5vw,96px);
+    line-height:1;letter-spacing:-.02em;margin-bottom:24px;
+  }
+  h1 .accent{color:var(--accent);font-weight:300}
+  h2{
+    font-weight:200;font-size:clamp(28px,3.6vw,52px);
+    line-height:1.05;letter-spacing:-.015em;margin-bottom:32px;
+  }
+  h2 .accent{color:var(--accent)}
+  p.lead{
+    font-size:clamp(15px,1.25vw,20px);
+    color:var(--mute);max-width:780px;line-height:1.55;font-weight:300;
+  }
+  .tag{
+    display:inline-block;border:1px solid var(--line);
+    padding:6px 12px;font-size:10px;letter-spacing:.25em;
+    text-transform:uppercase;color:var(--mute);border-radius:2px;
+  }
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .card{
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,0));
+    padding:28px;border-radius:4px;position:relative;
+  }
+  .card .num{
+    font-family:"Helvetica Neue",monospace;
+    font-size:11px;color:var(--accent);letter-spacing:.3em;margin-bottom:16px;display:block;
+  }
+  .card h3{font-size:18px;font-weight:400;margin-bottom:10px;letter-spacing:-.01em}
+  .card p{font-size:13.5px;color:var(--mute);line-height:1.55;font-weight:300}
+  .stat{padding:24px 0;border-top:1px solid var(--line)}
+  .stat .v{font-size:clamp(36px,4.5vw,64px);font-weight:200;letter-spacing:-.02em;line-height:1}
+  .stat .v .unit{font-size:.4em;color:var(--mute);margin-left:6px}
+  .stat .l{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+  ul.bullets{list-style:none;padding:0}
+  ul.bullets li{
+    padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:15px;color:var(--ink);display:flex;align-items:center;gap:14px;font-weight:300;
+  }
+  ul.bullets li::before{
+    content:"";width:6px;height:6px;background:var(--accent);flex-shrink:0;
+  }
+  .nav{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    display:flex;align-items:center;gap:18px;z-index:50;
+    background:rgba(10,14,19,.7);backdrop-filter:blur(10px);
+    border:1px solid var(--line);padding:10px 18px;border-radius:100px;
+  }
+  .nav button{
+    background:none;border:none;color:var(--ink);cursor:pointer;
+    font-size:14px;padding:6px 10px;letter-spacing:.1em;
+  }
+  .nav .count{font-family:monospace;font-size:11px;color:var(--mute);letter-spacing:.15em}
+  .brand{
+    position:fixed;top:24px;left:32px;z-index:50;
+    font-weight:600;letter-spacing:.3em;font-size:13px;
+  }
+  .brand .dot{color:var(--accent)}
+  .page-num{
+    position:fixed;top:28px;right:32px;z-index:50;
+    font-family:monospace;font-size:11px;color:var(--mute);letter-spacing:.2em;
+  }
+  .cover-meta{
+    margin-top:60px;display:flex;gap:48px;flex-wrap:wrap;
+    border-top:1px solid var(--line);padding-top:32px;max-width:900px;
+  }
+  .cover-meta div .l{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+  .cover-meta div .v{font-size:14px;color:var(--ink);font-weight:400}
+  .scan{
+    position:absolute;top:0;bottom:0;width:1px;
+    background:linear-gradient(180deg,transparent,var(--accent),transparent);
+    opacity:.4;animation:scan 8s linear infinite;
+  }
+  @keyframes scan{
+    0%{left:-2%}100%{left:102%}
+  }
+  .divider-slide{align-items:flex-start;justify-content:flex-end;padding-bottom:14vh}
+  .divider-slide .chap{
+    font-family:monospace;font-size:11px;color:var(--accent);
+    letter-spacing:.3em;margin-bottom:20px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  table th, table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}
+  table th{font-weight:500;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute)}
+  table td{color:var(--ink);font-weight:300}
+  table tr td:first-child{color:var(--accent);font-weight:400}
+  .table-note{font-size:12px;color:var(--mute);margin-top:12px;line-height:1.5;font-style:italic}
+  .latam{
+    display:flex;align-items:center;gap:14px;padding:14px 0;
+    border-bottom:1px solid var(--line);font-size:14px;
+  }
+  .latam .y{font-family:monospace;color:var(--accent);font-size:11px;letter-spacing:.2em;width:80px}
+  .latam .c{flex:1;font-weight:400}
+  .latam .n{color:var(--mute);font-size:12px}
+  .quote{
+    font-size:clamp(24px,2.6vw,38px);font-weight:200;
+    line-height:1.25;letter-spacing:-.01em;max-width:1100px;
+  }
+  .quote .accent{color:var(--accent)}
+  .bar-row{display:flex;align-items:center;gap:16px;padding:10px 0}
+  .bar-row .label{width:160px;font-size:12px;color:var(--mute);letter-spacing:.1em}
+  .bar-row .bar-track{flex:1;height:6px;background:var(--line);border-radius:3px;position:relative;overflow:hidden}
+  .bar-row .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .8s ease}
+  .bar-row .val{width:60px;text-align:right;font-family:monospace;font-size:12px;color:var(--accent)}
+  .footline{
+    position:absolute;bottom:32px;left:8vw;right:8vw;
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;letter-spacing:.2em;color:var(--mute);text-transform:uppercase;
+    border-top:1px solid var(--line);padding-top:12px;
+  }
+  .lang-selector{
+    position:fixed;top:24px;right:100px;z-index:50;
+    display:flex;gap:8px;
+  }
+  .lang-btn{
+    background:none;border:1px solid var(--line);color:var(--mute);
+    padding:4px 10px;font-size:10px;letter-spacing:.2em;
+    cursor:pointer;transition:all .3s;text-transform:uppercase;
+  }
+  .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .lang-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+  .partners-box{
+    margin-top:48px;padding:32px;
+    border:1px solid var(--line);border-radius:4px;
+    background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,0));
+  }
+  .partners-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:24px;
+  }
+  .partner-item{
+    text-align:center;padding:20px;
+    border:1px solid var(--line);border-radius:4px;
+    background:rgba(255,255,255,.02);
+  }
+  .partner-item .name{
+    font-size:22px;font-weight:500;color:var(--accent);
+    letter-spacing:.15em;margin-bottom:8px;
+  }
+  .partner-item .role{
+    font-size:11px;color:var(--mute);letter-spacing:.2em;
+    text-transform:uppercase;line-height:1.4;
+  }
+  .team-profile{
+    border:1px solid var(--line);padding:24px;border-radius:4px;
+    background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,0));
+  }
+  .team-profile .name{font-size:16px;font-weight:500;color:var(--accent);margin-bottom:4px}
+  .team-profile .title{font-size:12px;color:var(--mute);margin-bottom:12px;letter-spacing:.1em}
+  .team-profile .bio{font-size:13px;color:var(--ink);line-height:1.5;font-weight:300}
+  .ask-box{
+    border:2px solid var(--accent);padding:48px;border-radius:4px;
+    background:linear-gradient(180deg,rgba(255,106,0,.05),rgba(255,106,0,0));
+    text-align:center;margin-top:40px;
+  }
+  .ask-box .amount{
+    font-size:clamp(48px,5vw,72px);font-weight:200;color:var(--accent);
+    letter-spacing:-.02em;margin-bottom:16px;
+  }
+  .ask-box .label{
+    font-size:14px;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--mute);margin-bottom:32px;
+  }
 </style>
 </head>
-<body class="lang-en">
+<body>
 
-<div class="brand">SMART<span class="dot">·</span>M</div>
+<div class="brand">AD<span class="dot">·</span>SMART <span style="color:var(--mute);font-weight:300">· INDUSTRIAL AI</span></div>
 <div class="page-num" id="pageNum">01 / 14</div>
-
-<div class="lang-toggle">
-  <button id="btnEN" class="active" onclick="setLang('en')">EN</button>
-  <button id="btnES" onclick="setLang('es')">ES</button>
+<div class="lang-selector">
+  <button class="lang-btn active" data-lang="es">ES</button>
+  <button class="lang-btn" data-lang="en">EN</button>
 </div>
 
-<div class="deck" id="deck">
+<div class="deck">
 
-<!-- ─────────── 1. COVER ─────────── -->
+<!-- SLIDE 1: PORTADA -->
 <section class="slide cover active">
-  <div class="grid-bg"></div><div class="scan"></div>
-  <div class="eyebrow">
-    <span class="en">Investor Deck · Confidential · 2026</span>
-    <span class="es">Deck para Inversores · Confidencial · 2026</span>
-  </div>
-  <h1>
-    <span class="en">Intelligence for the<br/><span class="accent">unconventional</span> energy frontier.</span>
-    <span class="es">Inteligencia para la frontera<br/>energética <span class="accent">no convencional</span>.</span>
-  </h1>
-  <p class="lead">
-    <span class="en">AI-driven operational and commercial infrastructure for the Vaca Muerta upstream ecosystem. Built on the ground, in Neuquén.</span>
-    <span class="es">Infraestructura operacional y comercial impulsada por IA para el ecosistema upstream de Vaca Muerta. Construida en el territorio, en Neuquén.</span>
-  </p>
+  <div class="grid-bg"></div>
+  <div class="scan"></div>
+  <div class="eyebrow" data-i18n="cover-eyebrow">— Investor Deck</div>
+  <h1>AD<span class="accent">·</span>SMART<br/><span style="font-size:.35em;color:var(--mute);font-weight:200;letter-spacing:.15em" data-i18n="cover-subtitle">INDUSTRIAL AI</span></h1>
+  <p class="lead" data-i18n="cover-lead">Machine intelligence for Oil & Gas operations. Deterministic RAG systems and autonomous agents for the energy frontier.</p>
   <div class="cover-meta">
-    <div><div class="l"><span class="en">HQ</span><span class="es">SEDE</span></div><div class="v">Neuquén · Vaca Muerta Tech Hub</div></div>
-    <div><div class="l">OPS</div><div class="v">Buenos Aires · LATAM</div></div>
-    <div><div class="l"><span class="en">SECTOR</span><span class="es">SECTOR</span></div><div class="v">AI · Energy · Industrial Automation</div></div>
-    <div><div class="l"><span class="en">STAGE</span><span class="es">ETAPA</span></div><div class="v">Seed / Series A</div></div>
+    <div><div class="l" data-i18n="cover-sector">Sector</div><div class="v">Oil & Gas · Industrial AI</div></div>
+    <div><div class="l" data-i18n="cover-hq">HQ</div><div class="v">Neuquén · Buenos Aires</div></div>
+    <div><div class="l" data-i18n="cover-date">Date</div><div class="v" data-i18n="cover-date-val">Q2 2026</div></div>
   </div>
 </section>
 
-<!-- ─────────── 2. MARKET OPPORTUNITY ─────────── -->
+<!-- SLIDE 2: PROBLEMA -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow">
-    <span class="en">01 — Market Opportunity</span>
-    <span class="es">01 — Oportunidad de Mercado</span>
-  </div>
-  <h2>
-    <span class="en">The second-largest shale play on Earth<br/>is being built <span class="accent">right now</span>.</span>
-    <span class="es">El segundo reservorio shale del mundo<br/>se está construyendo <span class="accent">ahora mismo</span>.</span>
-  </h2>
-  <div class="grid-4" style="margin-top:36px">
-    <div class="stat"><div class="v">USD 30B<span class="unit">+</span></div><div class="l"><span class="en">Capex 2025–2030</span><span class="es">Capex 2025–2030</span></div></div>
-    <div class="stat"><div class="v">1.5M<span class="unit">bbl/d</span></div><div class="l"><span class="en">Production target 2030</span><span class="es">Meta de producción 2030</span></div></div>
-    <div class="stat"><div class="v">700<span class="unit">+</span></div><div class="l"><span class="en">Suppliers in ecosystem</span><span class="es">Proveedores en el ecosistema</span></div></div>
-    <div class="stat"><div class="v">USD 4B<span class="unit">/yr</span></div><div class="l"><span class="en">Addressable services spend</span><span class="es">Gasto en servicios direccionable</span></div></div>
-  </div>
-  <p class="lead" style="margin-top:40px">
-    <span class="en">Operators are racing to industrialize Vaca Muerta. Every barrel demands more data, more automation, more decisions per second. The AI infrastructure layer is still being written.</span>
-    <span class="es">Los operadores compiten por industrializar Vaca Muerta. Cada barril exige más datos, más automatización, más decisiones por segundo. La capa de infraestructura de IA aún está por escribirse.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Market</span><span class="es">Mercado</span></span></div>
-</section>
-
-<!-- ─────────── 3. PROBLEM ─────────── -->
-<section class="slide">
-  <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">02 — Problem</span><span class="es">02 — Problema</span></div>
-  <h2>
-    <span class="en">Vaca Muerta runs on <span class="accent">analog reflexes</span><br/>at digital scale.</span>
-    <span class="es">Vaca Muerta opera con <span class="accent">reflejos analógicos</span><br/>a escala digital.</span>
-  </h2>
-  <div class="grid-3" style="margin-top:36px">
+  <div class="eyebrow" data-i18n="prob-eyebrow">01 — Market Inflection Point</div>
+  <h2 data-i18n="prob-title">Operators already use AI to optimize ROI. <span class="accent">The $60B boom requires optimizing the AI itself for unprecedented scale.</span></h2>
+  <div class="grid-3" style="margin-top:40px">
     <div class="card">
       <span class="num">/ 01</span>
-      <h3><span class="en">Operators</span><span class="es">Operadores</span></h3>
-      <p>
-        <span class="en">Field decisions still rely on manual reports, fragmented telemetry and reactive maintenance. AI pilots stall before reaching production.</span>
-        <span class="es">Las decisiones de campo siguen dependiendo de reportes manuales, telemetría fragmentada y mantenimiento reactivo. Los pilotos de IA no llegan a producción.</span>
-      </p>
+      <h3 data-i18n="prob1-title">Investment-Driven Scale Pressure</h3>
+      <p data-i18n="prob1-desc">$60-95B capital influx requires 3x production by 2030. Current optimization playbooks designed for incremental growth, not exponential deployment.</p>
     </div>
     <div class="card">
       <span class="num">/ 02</span>
-      <h3><span class="en">Service Companies</span><span class="es">Empresas de Servicios</span></h3>
-      <p>
-        <span class="en">No real-time visibility on tenders, decision-makers or competitor moves. Commercial cycles last months and depend on personal contacts.</span>
-        <span class="es">Sin visibilidad en tiempo real de licitaciones, tomadores de decisión ni movimientos de la competencia. Los ciclos comerciales duran meses y dependen de contactos personales.</span>
-      </p>
+      <h3 data-i18n="prob2-title">Competitive Margin Compression</h3>
+      <p data-i18n="prob2-desc">New basin entrants plus global majors entering Vaca Muerta. Differentiation equals extracting 40% more efficiency from same data streams versus competitors' 15%.</p>
     </div>
     <div class="card">
       <span class="num">/ 03</span>
-      <h3><span class="en">Suppliers</span><span class="es">Proveedores</span></h3>
-      <p>
-        <span class="en">Generic marketing burns budget on audiences that don't operate wells. Programmatic platforms ignore B2B industrial decision-makers entirely.</span>
-        <span class="es">El marketing genérico quema presupuesto en audiencias que no operan pozos. Las plataformas programáticas ignoran por completo a los tomadores de decisión industriales B2B.</span>
-      </p>
+      <h3 data-i18n="prob3-title">Technological Ceiling</h3>
+      <p data-i18n="prob3-desc">Point AI solutions (drilling optimization, equipment monitoring) delivered gains in silos. Cross-operational deterministic intelligence delivers compounding gains across production-maintenance-compliance.</p>
     </div>
   </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Problem</span><span class="es">Problema</span></span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-prob">MARKET INFLECTION</span></div>
 </section>
 
-<!-- ─────────── 4. SOLUTION ─────────── -->
+<!-- SLIDE 3: SOLUCIÓN -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">03 — Solution</span><span class="es">03 — Solución</span></div>
-  <h2>
-    <span class="en">One operating system. <span class="accent">Two engines.</span></span>
-    <span class="es">Un sistema operativo. <span class="accent">Dos motores.</span></span>
-  </h2>
-  <div class="grid-2" style="margin-top:36px">
-    <div class="card" style="padding:32px">
-      <span class="num"><span class="en">/ ENGINE 01 — OPERATIONS</span><span class="es">/ MOTOR 01 — OPERACIONES</span></span>
-      <h3 style="font-size:22px;margin-bottom:16px"><span class="en">AI for the Field</span><span class="es">IA para el Campo</span></h3>
-      <ul class="bullets">
-        <li><span class="en">Predictive analytics on wells & facilities</span><span class="es">Analytics predictivo en pozos e instalaciones</span></li>
-        <li><span class="en">Industrial automation & SCADA intelligence</span><span class="es">Automatización industrial e inteligencia SCADA</span></li>
-        <li><span class="en">Fleet telematics & logistics optimization</span><span class="es">Telemática de flota y optimización logística</span></li>
-        <li><span class="en">Computer vision for industrial safety (HSE)</span><span class="es">Visión artificial para seguridad industrial (HSE)</span></li>
-        <li><span class="en">AI video analytics on operational sites</span><span class="es">Video analítica con IA en sitios operacionales</span></li>
-        <li><span class="en">Custom AI development for energy majors</span><span class="es">Desarrollo de IA a medida para grandes operadoras</span></li>
-      </ul>
+  <div class="eyebrow" data-i18n="sol-eyebrow">02 — Solution</div>
+  <h2 data-i18n="sol-title">Deterministic AI. <span class="accent">Built for critical operations.</span></h2>
+  <div class="grid-2" style="margin-top:40px">
+    <div class="card">
+      <span class="num">/ RAG ECOSYSTEM</span>
+      <h3 data-i18n="sol1-title">Multi-Source Intelligence</h3>
+      <p data-i18n="sol1-desc">Unified data layer integrating SCADA, ERP, IoT sensors, maintenance logs and regulatory docs. Verifiable, auditable responses with zero hallucination tolerance.</p>
     </div>
-    <div class="card" style="padding:32px">
-      <span class="num"><span class="en">/ ENGINE 02 — COMMERCIAL</span><span class="es">/ MOTOR 02 — COMERCIAL</span></span>
-      <h3 style="font-size:22px;margin-bottom:16px"><span class="en">AI for the Pipeline</span><span class="es">IA para el Pipeline Comercial</span></h3>
-      <ul class="bullets">
-        <li><span class="en">Real-time tender & opportunity detection</span><span class="es">Detección en tiempo real de licitaciones y oportunidades</span></li>
-        <li><span class="en">Decision-maker mapping across operators</span><span class="es">Mapeo de tomadores de decisión en operadoras</span></li>
-        <li><span class="en">Automated outreach (Email + LinkedIn)</span><span class="es">Outreach automatizado (Email + LinkedIn)</span></li>
-        <li><span class="en">Hyper-segmented B2B advertising</span><span class="es">Publicidad B2B hipersegmentada</span></li>
-        <li><span class="en">Programmatic to industry decision-makers only</span><span class="es">Programático exclusivo para decisores de la industria</span></li>
-        <li><span class="en">Proprietary Vaca Muerta supplier graph</span><span class="es">Grafo propietario de proveedores de Vaca Muerta</span></li>
-      </ul>
+    <div class="card">
+      <span class="num">/ AUTONOMOUS AGENTS</span>
+      <h3 data-i18n="sol2-title">Specialized Operations AI</h3>
+      <p data-i18n="sol2-desc">Predictive maintenance alerts, real-time production optimization, automated compliance monitoring and dynamic process adjustments.</p>
     </div>
   </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Solution</span><span class="es">Solución</span></span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-sol">SOLUTION</span></div>
 </section>
 
-<!-- ─────────── 5. AI INFRASTRUCTURE ─────────── -->
+<!-- SLIDE 4: CASOS DE USO -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">04 — AI Infrastructure</span><span class="es">04 — Infraestructura de IA</span></div>
-  <h2>
-    <span class="en">Built deterministic. <span class="accent">Built for production.</span></span>
-    <span class="es">Construida determinista. <span class="accent">Construida para producción.</span></span>
-  </h2>
-  <div class="grid-4" style="margin-top:36px">
+  <div class="eyebrow" data-i18n="uc-eyebrow">03 — Use Cases</div>
+  <h2 data-i18n="uc-title">From sensor to decision. <span class="accent">In real time.</span></h2>
+  <div class="grid-3" style="margin-top:40px">
     <div class="card">
-      <span class="num">/ DATA</span>
-      <h3><span class="en">Proprietary Graph</span><span class="es">Grafo Propietario</span></h3>
-      <p><span class="en">Operators, service co's, wells, contracts, decision-makers — continuously enriched from public and on-ground sources.</span><span class="es">Operadoras, empresas de servicios, pozos, contratos, decisores — enriquecido continuamente desde fuentes públicas y de campo.</span></p>
+      <span class="num">/ 01</span>
+      <h3 data-i18n="uc1-title">Predictive Maintenance</h3>
+      <p data-i18n="uc1-desc">Pattern recognition in sensor streams to forecast equipment failure 48-72h in advance, reducing unplanned downtime by 62%.</p>
     </div>
     <div class="card">
-      <span class="num">/ MODELS</span>
-      <h3><span class="en">Multi-Model Stack</span><span class="es">Stack Multimodelo</span></h3>
-      <p><span class="en">Foundation models for reasoning, vision models for HSE, time-series for predictive maintenance, embeddings for matching.</span><span class="es">Modelos fundacionales de razonamiento, visión para HSE, series temporales para mantenimiento predictivo, embeddings para matching.</span></p>
+      <span class="num">/ 02</span>
+      <h3 data-i18n="uc2-title">Production Optimization</h3>
+      <p data-i18n="uc2-desc">Dynamic parameter adjustment across wells and facilities to maximize output while maintaining safety thresholds.</p>
     </div>
     <div class="card">
-      <span class="num">/ AGENTS</span>
-      <h3><span class="en">Vertical Agents</span><span class="es">Agentes Verticales</span></h3>
-      <p><span class="en">RAG + tool-use agents trained on upstream terminology, regulation and procurement workflows specific to the basin.</span><span class="es">Agentes RAG entrenados en terminología upstream, regulación y flujos de procurement específicos de la cuenca.</span></p>
-    </div>
-    <div class="card">
-      <span class="num">/ EDGE</span>
-      <h3><span class="en">Field-Grade Deploy</span><span class="es">Deploy de Grado Campo</span></h3>
-      <p><span class="en">Edge inference for sites with intermittent connectivity. Security and compliance posture aligned to energy and banking standards.</span><span class="es">Inferencia edge para sitios con conectividad intermitente. Seguridad y compliance alineados a estándares energéticos y bancarios.</span></p>
+      <span class="num">/ 03</span>
+      <h3 data-i18n="uc3-title">Automated Compliance</h3>
+      <p data-i18n="uc3-desc">Continuous regulatory monitoring, alert generation and report automation for HSE and environmental standards.</p>
     </div>
   </div>
-  <p class="lead" style="margin-top:36px">
-    <span class="en">Determinism over hype. Every model is measured against operational ROI, not benchmarks.</span>
-    <span class="es">Determinismo sobre hype. Cada modelo se mide contra ROI operacional, no contra benchmarks.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Infrastructure</span><span class="es">Infraestructura</span></span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-uc">USE CASES</span></div>
 </section>
 
-<!-- ─────────── 6. BUSINESS MODEL ─────────── -->
+<!-- SLIDE 5: TAMAÑO DE MERCADO [NUEVO] -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">05 — Business Model</span><span class="es">05 — Modelo de Negocio</span></div>
-  <h2>
-    <span class="en">Three revenue streams. <span class="accent">One platform.</span></span>
-    <span class="es">Tres fuentes de ingresos. <span class="accent">Una plataforma.</span></span>
-  </h2>
+  <div class="eyebrow" data-i18n="market-eyebrow">04 — Market Opportunity</div>
+  <h2 data-i18n="market-title">Massive market. <span class="accent">Strategic entry point.</span></h2>
+  <div class="grid-3" style="margin-top:40px">
+    <div class="stat"><div class="v">$8.7<span class="unit">B</span></div><div class="l" data-i18n="market-tam">TAM — Global AI in O&G 2026</div></div>
+    <div class="stat"><div class="v">$2.5<span class="unit">B</span></div><div class="l" data-i18n="market-sam">SAM — Americas (US + LATAM)</div></div>
+    <div class="stat"><div class="v">$100<span class="unit">M</span></div><div class="l" data-i18n="market-som">SOM — Vaca Muerta + Permian 3Y</div></div>
+  </div>
+  <p class="lead" style="margin-top:40px" data-i18n="market-desc">AI in Oil & Gas growing at 14% CAGR. Vaca Muerta represents $60-95B cumulative investment through 2030, with AI adoption at inflection point.</p>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-market">MARKET</span></div>
+</section>
 
-  <!-- EN table -->
-  <table class="en-table" style="margin-top:28px">
-    <thead><tr><th>Stream</th><th>Buyer</th><th>Pricing</th><th>Margin</th><th>ACV (USD)</th></tr></thead>
+<!-- SLIDE 6: MODELO DE NEGOCIO -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow" data-i18n="biz-eyebrow">05 — Business Model</div>
+  <h2 data-i18n="biz-title">Three revenue streams. <span class="accent">One platform.</span></h2>
+  <table style="margin-top:40px">
+    <thead>
+      <tr>
+        <th data-i18n="biz-col1">STREAM</th>
+        <th data-i18n="biz-col2">BUYER</th>
+        <th data-i18n="biz-col3">PRICING</th>
+        <th data-i18n="biz-col4">MARGIN PROFILE</th>
+        <th data-i18n="biz-col5">ACV (USD)</th>
+      </tr>
+    </thead>
     <tbody>
-      <tr><td>SaaS — Commercial Intelligence</td><td>Suppliers · Service co's</td><td>Tiered subscription</td><td>75–85%</td><td>12K – 60K</td></tr>
-      <tr><td>AI Operations Projects</td><td>Operators · Majors</td><td>Implementation + retainer</td><td>45–60%</td><td>120K – 800K</td></tr>
-      <tr><td>Programmatic & Media</td><td>Suppliers · OEMs</td><td>% of media + fee</td><td>40–55%</td><td>30K – 250K</td></tr>
+      <tr>
+        <td data-i18n="biz-row1-stream">Data Intelligence Platform</td>
+        <td data-i18n="biz-row1-buyer">Suppliers · Consultancies</td>
+        <td data-i18n="biz-row1-pricing">Tiered subscription</td>
+        <td data-i18n="biz-row1-margin">Very High (90%+)</td>
+        <td>18K — 36K</td>
+      </tr>
+      <tr>
+        <td data-i18n="biz-row2-stream">Managed GTM Engine</td>
+        <td data-i18n="biz-row2-buyer">Suppliers entering basin</td>
+        <td data-i18n="biz-row2-pricing">Retainer + % deal + programmatic add-on</td>
+        <td data-i18n="biz-row2-margin">Blended (55–65%)</td>
+        <td>150K — 280K</td>
+      </tr>
+      <tr>
+        <td data-i18n="biz-row3-stream">AI Operations Projects</td>
+        <td data-i18n="biz-row3-buyer">Operators · Majors</td>
+        <td data-i18n="biz-row3-pricing">Implementation + retainer</td>
+        <td data-i18n="biz-row3-margin">Blended (45–60%)</td>
+        <td>120K — 800K</td>
+      </tr>
     </tbody>
   </table>
-
-  <!-- ES table -->
-  <table class="es-table" style="margin-top:28px">
-    <thead><tr><th>Línea</th><th>Comprador</th><th>Pricing</th><th>Margen</th><th>ACV (USD)</th></tr></thead>
-    <tbody>
-      <tr><td>SaaS — Inteligencia Comercial</td><td>Proveedores · Servicios</td><td>Suscripción escalonada</td><td>75–85%</td><td>12K – 60K</td></tr>
-      <tr><td>Proyectos de IA Operacional</td><td>Operadoras · Majors</td><td>Implementación + retainer</td><td>45–60%</td><td>120K – 800K</td></tr>
-      <tr><td>Programático & Media</td><td>Proveedores · OEMs</td><td>% media + fee</td><td>40–55%</td><td>30K – 250K</td></tr>
-    </tbody>
-  </table>
-
-  <p class="lead" style="margin-top:28px">
-    <span class="en">SaaS anchors recurring revenue. Operations projects deepen accounts. Media monetizes the same supplier graph at scale.</span>
-    <span class="es">El SaaS ancla ingresos recurrentes. Los proyectos operacionales profundizan cuentas. El media monetiza el mismo grafo de proveedores a escala.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Business Model</span><span class="es">Modelo de Negocio</span></span></div>
+  <p class="table-note" data-i18n="biz-note">Data Intelligence Platform: Proprietary AI captures procurement cycles, tender alerts, and operator positioning across Vaca Muerta ecosystem—structured datasets with zero direct competitors. Currently monetized in other verticals; O&G offering launching with seed capital. | Managed GTM Engine: Converts data intelligence into qualified pipeline through AI-powered lead generation, multi-channel activation (email, LinkedIn, programmatic), and on-site meetings at Neuquén Tech Park. 4 active clients validate model. Programmatic media available as add-on (8-12% media spend). | AI Operations Projects: Discovery (2-4 weeks) maps tech ecosystem and prioritizes use cases by ROI. MVP (8-12 weeks) validates value hypothesis. Scale options: fixed monthly fee or revenue share (15-25% of measurable impact over 24-36 months). Premium 24/7 support included.</p>
+  <p class="lead" style="margin-top:24px" data-i18n="biz-bottom">Data platform creates proprietary moat. Managed GTM monetizes that moat at scale. AI Ops projects deepen operator relationships and feed data flywheel. Physical presence at Neuquén Tech Park enables execution no remote competitor can replicate.</p>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-biz">BUSINESS MODEL</span></div>
 </section>
 
-<!-- ─────────── 7. COMPETITIVE ADVANTAGE ─────────── -->
+<!-- SLIDE 7: TRACCIÓN [MODIFICADO] -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">06 — Competitive Advantage</span><span class="es">06 — Ventaja Competitiva</span></div>
-  <h2>
-    <span class="en">We're not selling AI to Vaca Muerta.<br/><span class="accent">We live in it.</span></span>
-    <span class="es">No le vendemos IA a Vaca Muerta.<br/><span class="accent">Vivimos en ella.</span></span>
-  </h2>
-  <div class="grid-3" style="margin-top:32px">
-    <div class="card"><span class="num">/ 01</span><h3><span class="en">Physical Presence</span><span class="es">Presencia Física</span></h3><p><span class="en">Offices inside Neuquén's technology district. Walking distance to operators, service yards and decision-makers.</span><span class="es">Oficinas dentro del distrito tecnológico de Neuquén. A minutos de operadoras, bases de servicios y tomadores de decisión.</span></p></div>
-    <div class="card"><span class="num">/ 02</span><h3><span class="en">Proprietary Data</span><span class="es">Datos Propietarios</span></h3><p><span class="en">Supplier graph and decision-maker map of the basin — impossible to replicate from Silicon Valley or Houston.</span><span class="es">Grafo de proveedores y mapa de decisores de la cuenca — imposible de replicar desde Silicon Valley o Houston.</span></p></div>
-    <div class="card"><span class="num">/ 03</span><h3><span class="en">Dual Stack</span><span class="es">Stack Dual</span></h3><p><span class="en">Operational AI + commercial AI under one roof. Competitors do one. We compound both.</span><span class="es">IA operacional + IA comercial bajo el mismo techo. Los competidores hacen una. Nosotros potenciamos las dos.</span></p></div>
-    <div class="card"><span class="num">/ 04</span><h3><span class="en">Ground Game</span><span class="es">Juego de Campo</span></h3><p><span class="en">Executive breakfasts, live demos, on-site workshops, field collaboration. Trust is built in person.</span><span class="es">Desayunos ejecutivos, demos en vivo, workshops on-site, colaboración de campo. La confianza se construye en persona.</span></p></div>
-    <div class="card"><span class="num">/ 05</span><h3><span class="en">Local Compliance</span><span class="es">Compliance Local</span></h3><p><span class="en">Regulatory, fiscal and operational fluency in Argentina. No friction in procurement or data residency.</span><span class="es">Fluidez regulatoria, fiscal y operativa en Argentina. Sin fricciones en procurement ni residencia de datos.</span></p></div>
-    <div class="card"><span class="num">/ 06</span><h3><span class="en">Speed</span><span class="es">Velocidad</span></h3><p><span class="en">From insight to production in weeks, not quarters. We deploy where global vendors are still scoping.</span><span class="es">De insight a producción en semanas, no trimestres. Desplegamos donde los vendors globales aún están relevando.</span></p></div>
-  </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span>Moat</span></div>
-</section>
-
-<!-- ─────────── 8. GTM ─────────── -->
-<section class="slide">
-  <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">07 — Go to Market</span><span class="es">07 — Go to Market</span></div>
-  <h2>
-    <span class="en">Land in the basin. <span class="accent">Expand by gravity.</span></span>
-    <span class="es">Aterrizar en la cuenca. <span class="accent">Expandir por gravedad.</span></span>
-  </h2>
-  <div class="grid-2" style="margin-top:36px;gap:56px">
+  <div class="eyebrow" data-i18n="traction-eyebrow">06 — Traction & Validation</div>
+  <h2 data-i18n="traction-title">Building momentum. <span class="accent">Strategic partnerships secured.</span></h2>
+  <div class="grid-2" style="margin-top:40px;gap:60px">
     <div>
+      <h3 style="font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:24px" data-i18n="traction-progress">Progress to Date</h3>
       <ul class="bullets">
-        <li><span class="en">Anchor 3–5 operators with high-ROI AI pilots</span><span class="es">Anclar 3–5 operadoras con pilotos de IA de alto ROI</span></li>
-        <li><span class="en">Convert ecosystem suppliers to SaaS subscriptions</span><span class="es">Convertir proveedores del ecosistema a suscripciones SaaS</span></li>
-        <li><span class="en">Monetize programmatic on the same supplier graph</span><span class="es">Monetizar programático sobre el mismo grafo de proveedores</span></li>
-        <li><span class="en">Executive breakfasts as monthly demand engine</span><span class="es">Desayunos ejecutivos como motor mensual de demanda</span></li>
-        <li><span class="en">On-site workshops embedded in operator HSE & ops</span><span class="es">Workshops on-site integrados en HSE y operaciones</span></li>
-        <li><span class="en">Channel partnerships with OEMs and EPCs</span><span class="es">Partnerships de canal con OEMs y EPCs</span></li>
+        <li data-i18n="traction1">Formal partnerships: ITBA (Petroleum Eng.) + UDESA (Business) + SAIA (AI Validation)</li>
+        <li data-i18n="traction2">Commercial pipeline: 3 mid-tier operators in advanced conversations</li>
+        <li data-i18n="traction3">Physical presence: Offices at Neuquén Tech Park (direct Vaca Muerta access)</li>
+        <li data-i18n="traction4">Technical platform: Deterministic RAG + operational agents in development</li>
+        <li data-i18n="traction5">Ecosystem integration: Active participation in Vaca Muerta AI initiatives</li>
       </ul>
     </div>
     <div>
-      <h3 style="font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:22px"><span class="en">Sales Motion</span><span class="es">Movimiento de Ventas</span></h3>
-      <div class="bar-row"><div class="label"><span class="en">Direct enterprise</span><span class="es">Enterprise directo</span></div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><div class="val">70%</div></div>
-      <div class="bar-row"><div class="label"><span class="en">Self-serve SaaS</span><span class="es">SaaS self-serve</span></div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><div class="val">20%</div></div>
-      <div class="bar-row"><div class="label"><span class="en">Channel & OEM</span><span class="es">Canal & OEM</span></div><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><div class="val">10%</div></div>
-      <p class="lead" style="margin-top:22px;font-size:12.5px"><span class="en">CAC payback &lt;9 months on SaaS. Land-and-expand averages 3.2x ACV by year two.</span><span class="es">Recupero de CAC &lt;9 meses en SaaS. Land-and-expand promedia 3.2x ACV al año dos.</span></p>
+      <h3 style="font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:24px" data-i18n="traction-projected">Projected Impact Metrics</h3>
+      <div class="stat"><div class="v">-35<span class="unit">%</span></div><div class="l" data-i18n="traction-metric1">Operational Costs</div></div>
+      <div class="stat"><div class="v">+28<span class="unit">%</span></div><div class="l" data-i18n="traction-metric2">Production Efficiency</div></div>
+      <div class="stat"><div class="v">-62<span class="unit">%</span></div><div class="l" data-i18n="traction-metric3">Unplanned Downtime</div></div>
+      <p class="lead" style="margin-top:24px;font-size:13px" data-i18n="traction-note">Benchmarked against industry leaders like Tecpetrol (drilling time reduction from 40 to 16 days using AI/ML).</p>
     </div>
   </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span>GTM</span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-traction">TRACTION</span></div>
 </section>
 
-<!-- ─────────── 9. SCALABILITY ─────────── -->
+<!-- SLIDE 8: COMPETENCIA Y MOAT [NUEVO] -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">08 — Scalability</span><span class="es">08 — Escalabilidad</span></div>
-  <h2>
-    <span class="en">The platform compounds. <span class="accent">The basin compounds harder.</span></span>
-    <span class="es">La plataforma escala. <span class="accent">La cuenca escala más rápido.</span></span>
-  </h2>
-  <div class="grid-4" style="margin-top:36px">
-    <div class="stat"><div class="v">5x</div><div class="l"><span class="en">Drilling activity by 2030</span><span class="es">Actividad de perforación a 2030</span></div></div>
-    <div class="stat"><div class="v">3x</div><div class="l"><span class="en">Suppliers entering basin</span><span class="es">Proveedores ingresando a la cuenca</span></div></div>
-    <div class="stat"><div class="v">80%</div><div class="l"><span class="en">Gross margin SaaS at scale</span><span class="es">Margen bruto SaaS a escala</span></div></div>
-    <div class="stat"><div class="v">110%+</div><div class="l"><span class="en">Net revenue retention target</span><span class="es">Meta de retención neta de ingresos</span></div></div>
+  <div class="eyebrow" data-i18n="moat-eyebrow">07 — Competitive Advantage</div>
+  <h2 data-i18n="moat-title">Unique positioning. <span class="accent">Defensible moat.</span></h2>
+  <div class="grid-2" style="margin-top:40px;gap:60px">
+    <div class="card">
+      <span class="num">/ OUR MOAT</span>
+      <h3 data-i18n="moat1-title">Strategic Differentiation</h3>
+      <ul class="bullets" style="margin-top:20px">
+        <li data-i18n="moat1-1">Complete stack: RAG Ops + Commercial SaaS + Programmatic Media (competitors do point solutions)</li>
+        <li data-i18n="moat1-2">Physical presence: Neuquén + Buenos Aires embedded in ecosystem (vs. remote/international HQ)</li>
+        <li data-i18n="moat1-3">Certified determinism: Zero-hallucination architecture for critical operations (vs. generic LLMs)</li>
+        <li data-i18n="moat1-4">Exclusive R&D alliance: ITBA/UDESA/SAIA partnership (vs. commercial-only relationships)</li>
+        <li data-i18n="moat1-5">Dual model: Custom projects + scalable SaaS (vs. project-only or SaaS-only)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="num">/ COMPETITIVE LANDSCAPE</span>
+      <h3 data-i18n="moat2-title">Market Position</h3>
+      <p data-i18n="moat2-desc" style="margin-bottom:20px">Local competition fragmented between traditional consultancies (Accenture, Deloitte), operator in-house teams (YPF-Globant, Tecpetrol), and global tech players (IBM Watson, Microsoft Azure, C3.AI).</p>
+      <p data-i18n="moat2-gap" style="color:var(--accent);font-weight:400">Gap we fill: No existing player combines operational AI expertise, commercial intelligence platform, local market intimacy, and deterministic architecture purpose-built for unconventional O&G.</p>
+    </div>
   </div>
-  <p class="lead" style="margin-top:36px">
-    <span class="en">Every new operator unlocks new suppliers. Every supplier feeds the graph. Every graph node sharpens the AI. The flywheel is local, defensible and exportable.</span>
-    <span class="es">Cada nueva operadora desbloquea nuevos proveedores. Cada proveedor alimenta el grafo. Cada nodo del grafo afina la IA. El flywheel es local, defendible y exportable.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Scale</span><span class="es">Escala</span></span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-moat">COMPETITIVE ADVANTAGE</span></div>
 </section>
 
-<!-- ─────────── 10. VACA MUERTA GROWTH ─────────── -->
+<!-- SLIDE 9: EQUIPO [NUEVO] -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">09 — Vaca Muerta Growth</span><span class="es">09 — Crecimiento de Vaca Muerta</span></div>
-  <h2>
-    <span class="en">A decade of <span class="accent">industrialization</span> just began.</span>
-    <span class="es">Una década de <span class="accent">industrialización</span> acaba de comenzar.</span>
-  </h2>
-  <div class="grid-2" style="margin-top:36px;gap:56px">
+  <div class="eyebrow" data-i18n="team-eyebrow">08 — Team & Expertise</div>
+  <h2 data-i18n="team-title">Execution capability. <span class="accent">Domain expertise.</span></h2>
+  <div class="grid-3" style="margin-top:40px">
+    <div class="team-profile">
+      <div class="name" data-i18n="team1-name">Gonzalo Farrus</div>
+      <div class="title" data-i18n="team1-title">CEO & Founder</div>
+      <p class="bio" data-i18n="team1-bio">20+ years executive experience. Founder of Adsmart Media (Programmatic & Performance). Partner at Apex Nativa (eCommerce + Wellness). Expertise across Automotive, Banking, CPG, Oil & Gas. Early adopter of AI-driven solutions since 2023.</p>
+    </div>
+    <div class="team-profile">
+      <div class="name" data-i18n="team2-name">CTO - RAG Architect</div>
+      <div class="title" data-i18n="team2-title">To be hired with Seed</div>
+      <p class="bio" data-i18n="team2-bio">Target profile: PhD or equivalent in AI/ML, proven experience building production RAG systems, deep understanding of deterministic architectures and enterprise data integration.</p>
+    </div>
+    <div class="team-profile">
+      <div class="name" data-i18n="team3-name">Head of Operations</div>
+      <div class="title" data-i18n="team3-title">Advisor (equity post-Seed)</div>
+      <p class="bio" data-i18n="team3-bio">Former Vaca Muerta operator with 15+ years field experience. Advisory role transitioning to full-time operational leadership. Critical for customer validation and technical credibility.</p>
+    </div>
+  </div>
+  <div class="partners-box" style="margin-top:40px">
+    <p class="lead" data-i18n="team-partners-desc">Institutional validation through formal partnerships</p>
+    <div class="partners-grid">
+      <div class="partner-item">
+        <div class="name">ITBA</div>
+        <div class="role" data-i18n="team-itba">Petroleum Engineering<br/>Technical Partnership</div>
+      </div>
+      <div class="partner-item">
+        <div class="name">UDESA</div>
+        <div class="role" data-i18n="team-udesa">Business Program Director<br/>Strategic Advisory</div>
+      </div>
+      <div class="partner-item">
+        <div class="name">SAIA</div>
+        <div class="role" data-i18n="team-saia">AI in O&G Validation<br/>www.saia.ar</div>
+      </div>
+    </div>
+  </div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-team">TEAM</span></div>
+</section>
+
+<!-- SLIDE 10: PRESENCIA ESTRATÉGICA -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow" data-i18n="pres-eyebrow">09 — Strategic Presence</div>
+  <h2 data-i18n="pres-title">Three hubs. <span class="accent">One mission.</span></h2>
+  <div style="margin-top:40px;max-width:920px">
+    <div class="latam">
+      <div class="y">NQN</div>
+      <div class="c">Neuquén</div>
+      <div class="n" data-i18n="pres-neuquen">Technology Park · Direct access to Vaca Muerta operators and ecosystem</div>
+    </div>
+    <div class="latam">
+      <div class="y">CABA</div>
+      <div class="c">Buenos Aires</div>
+      <div class="n" data-i18n="pres-buenosaires">Operational HQ · Tech development hub · ITBA/UDESA coordination</div>
+    </div>
+    <div class="latam">
+      <div class="y">HTX</div>
+      <div class="c">Houston</div>
+      <div class="n" data-i18n="pres-houston">Partnership development · Global O&G tech ecosystem access · North American market entry</div>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:32px" data-i18n="pres-bottom">From Vaca Muerta outward. Local execution with global scalability. Houston partnerships supported by investor network.</p>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-pres">PRESENCE</span></div>
+</section>
+
+<!-- SLIDE 11: RONDA DE INVERSIÓN [NUEVO - THE ASK] -->
+<section class="slide">
+  <div class="grid-bg"></div>
+  <div class="eyebrow" data-i18n="ask-eyebrow">10 — The Ask</div>
+  <h2 data-i18n="ask-title">Seed round to <span class="accent">capture the basin</span>.</h2>
+  <div class="ask-box">
+    <div class="amount">$1M USD</div>
+    <div class="label" data-i18n="ask-round">SEED ROUND</div>
+  </div>
+  <div class="grid-3" style="margin-top:40px">
+    <div class="card">
+      <span class="num" data-i18n="ask-use">/ USE OF FUNDS</span>
+      <h3 data-i18n="ask1-title">55% Product & AI</h3>
+      <p data-i18n="ask1-desc">$550K: Core tech team (CTO + 1-2 engineers), cloud infrastructure, RAG models development, deterministic architecture implementation.</p>
+    </div>
+    <div class="card">
+      <span class="num" data-i18n="ask-use">/ USE OF FUNDS</span>
+      <h3 data-i18n="ask2-title">30% Go-to-Market</h3>
+      <p data-i18n="ask2-desc">$300K: Vaca Muerta GTM expansion, Houston partnership development (travel + BD), industry events, pilot customer acquisition.</p>
+    </div>
+    <div class="card">
+      <span class="num" data-i18n="ask-use">/ USE OF FUNDS</span>
+      <h3 data-i18n="ask3-title">15% Operations</h3>
+      <p data-i18n="ask3-desc">$150K: Legal, accounting, offices, 18-month runway for focused execution without capital distraction.</p>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top:40px;gap:60px">
     <div>
+      <h3 style="font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:24px" data-i18n="ask-milestones">18-Month Milestones</h3>
       <ul class="bullets">
-        <li><span class="en">VMOS pipeline + LNG projects unlocking exports</span><span class="es">Oleoducto VMOS + proyectos LNG desbloqueando exportaciones</span></li>
-        <li><span class="en">RIGI framework attracting multi-billion FDI</span><span class="es">Régimen RIGI atrayendo FDI multibillonaria</span></li>
-        <li><span class="en">YPF, Vista, Pluspetrol, Pampa, Tecpetrol scaling activity</span><span class="es">YPF, Vista, Pluspetrol, Pampa, Tecpetrol escalando actividad</span></li>
-        <li><span class="en">International majors re-entering the basin</span><span class="es">Majors internacionales reingresando a la cuenca</span></li>
-        <li><span class="en">Supplier ecosystem expected to triple by 2030</span><span class="es">Se espera que el ecosistema de proveedores se triplique a 2030</span></li>
-        <li><span class="en">Critical talent and infrastructure concentrating in Neuquén</span><span class="es">Talento crítico e infraestructura concentrándose en Neuquén</span></li>
+        <li data-i18n="ask-m1">ARR: $650K (10 Managed GTM clients @ $60K avg + 1-2 AI Ops pilots @ $125K avg)</li>
+        <li data-i18n="ask-m2">Team: 6-8 people (tech, sales, ops)</li>
+        <li data-i18n="ask-m3">Product: Production-ready RAG platform + 2 operational agents deployed</li>
+        <li data-i18n="ask-m4">Market validation: 2-3 case studies with measurable impact</li>
+        <li data-i18n="ask-m5">Series A readiness: Repeatable GTM motion + proven unit economics</li>
       </ul>
     </div>
     <div>
-      <h3 style="font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:22px"><span class="en">Basin Trajectory (bbl/d)</span><span class="es">Trayectoria Cuenca (bbl/d)</span></h3>
-      <div class="bar-row"><div class="label">2024</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><div class="val">~450k</div></div>
-      <div class="bar-row"><div class="label">2027</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><div class="val">~900k</div></div>
-      <div class="bar-row"><div class="label">2030</div><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div><div class="val">1.5M+</div></div>
-      <p class="lead" style="margin-top:22px;font-size:12.5px"><span class="en">Each curve point is more decisions, more assets, more data — more SMARTM.</span><span class="es">Cada punto de la curva implica más decisiones, más activos, más datos — más SMARTM.</span></p>
+      <h3 style="font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:24px" data-i18n="ask-contact">Contact</h3>
+      <p class="lead" style="margin-bottom:20px">invest@adsmart.industrial</p>
+      <p class="lead" style="font-size:14px;color:var(--ink)" data-i18n="ask-cta">AdSmart Industrial AI is positioned to become the operating system of Latin American upstream — starting from the basin the world is watching.</p>
     </div>
   </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Basin</span><span class="es">Cuenca</span></span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-ask">THE ASK</span></div>
 </section>
 
-<!-- ─────────── 11. LATAM EXPANSION ─────────── -->
+<!-- SLIDE 12: GTM -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">10 — LATAM Expansion</span><span class="es">10 — Expansión LATAM</span></div>
-  <h2>
-    <span class="en">From Vaca Muerta <span class="accent">outward</span>.</span>
-    <span class="es">Desde Vaca Muerta <span class="accent">hacia afuera</span>.</span>
-  </h2>
-  <div style="margin-top:36px;max-width:920px">
-    <div class="latam"><div class="y">Y1–Y2</div><div class="c"><span class="en">Argentina · Vaca Muerta consolidation</span><span class="es">Argentina · Consolidación Vaca Muerta</span></div><div class="n"><span class="en">Operators + supplier SaaS + media</span><span class="es">Operadoras + SaaS proveedores + media</span></div></div>
-    <div class="latam"><div class="y">Y2–Y3</div><div class="c"><span class="en">Colombia · Llanos & Magdalena</span><span class="es">Colombia · Llanos & Magdalena</span></div><div class="n"><span class="en">Operational AI + HSE vision</span><span class="es">IA operacional + visión HSE</span></div></div>
-    <div class="latam"><div class="y">Y3–Y4</div><div class="c"><span class="en">Brazil · Pre-salt service ecosystem</span><span class="es">Brasil · Ecosistema pre-sal</span></div><div class="n"><span class="en">Commercial intelligence layer</span><span class="es">Capa de inteligencia comercial</span></div></div>
-    <div class="latam"><div class="y">Y4–Y5</div><div class="c"><span class="en">Mexico · Onshore + petrochemical</span><span class="es">México · Onshore + petroquímica</span></div><div class="n"><span class="en">Full platform deployment</span><span class="es">Despliegue full platform</span></div></div>
-    <div class="latam"><div class="y">Y5+</div><div class="c"><span class="en">Guyana · Permian-adjacent strategy</span><span class="es">Guyana · Estrategia adyacente al Pérmico</span></div><div class="n"><span class="en">Cross-basin supplier graph</span><span class="es">Grafo de proveedores multi-cuenca</span></div></div>
+  <div class="eyebrow" data-i18n="gtm-eyebrow">11 — GTM</div>
+  <h2 data-i18n="gtm-title">Win 3-5 operators with high-ROI pilots. <span class="accent">Their supplier networks become our SaaS base.</span></h2>
+  <div class="grid-2" style="margin-top:40px;gap:60px">
+    <div>
+      <ul class="bullets">
+        <li data-i18n="gtm1">Anchor 3–5 operators with measurable AI pilots (predictive maintenance, production optimization)</li>
+        <li data-i18n="gtm2">Convert their existing suppliers to SaaS subscriptions (procurement intelligence, tender alerts)</li>
+        <li data-i18n="gtm3">Monetize programmatic on the same supplier relationships (8-12% media spend)</li>
+        <li data-i18n="gtm4">Executive breakfasts as monthly pipeline engine (C-level decision makers)</li>
+        <li data-i18n="gtm5">On-site workshops embedded in HSE & ops workflows (credibility + product feedback)</li>
+        <li data-i18n="gtm6">Channel partnerships with OEMs already serving these operators (co-selling motion)</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:14px;letter-spacing:.25em;text-transform:uppercase;color:var(--mute);margin-bottom:24px" data-i18n="gtm-sales">Sales Motion</h3>
+      <div class="bar-row"><div class="label" data-i18n="gtm-direct">Direct enterprise</div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><div class="val">70%</div></div>
+      <div class="bar-row"><div class="label" data-i18n="gtm-saas">Self-serve SaaS</div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><div class="val">20%</div></div>
+      <div class="bar-row"><div class="label" data-i18n="gtm-channel">Channel & OEM</div><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><div class="val">10%</div></div>
+      <p class="lead" style="margin-top:24px;font-size:13px" data-i18n="gtm-cac">CAC payback < 9 months on SaaS. Land-and-expand on operators averages 3.2x ACV by year two.</p>
+    </div>
   </div>
-  <p class="lead" style="margin-top:28px">
-    <span class="en">The playbook is portable. The data is proprietary. The category is open.</span>
-    <span class="es">El playbook es portable. Los datos son propietarios. La categoría está abierta.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span>LATAM</span></div>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-gtm">GTM</span></div>
 </section>
 
-<!-- ─────────── 12. WHY NOW ─────────── -->
+<!-- SLIDE 13: SCALABILITY -->
 <section class="slide">
   <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">11 — Why Now</span><span class="es">11 — Por Qué Ahora</span></div>
-  <p class="quote">
-    <span class="en">The barrels are flowing. The capital is landing. The decision-makers are buying.<br/><span class="accent">The intelligence layer is empty.</span></span>
-    <span class="es">Los barriles fluyen. El capital aterriza. Los decisores están comprando.<br/><span class="accent">La capa de inteligencia está vacía.</span></span>
-  </p>
-  <div class="grid-4" style="margin-top:52px">
-    <div class="stat"><div class="v">RIGI</div><div class="l"><span class="en">Investment framework live</span><span class="es">Marco de inversión vigente</span></div></div>
-    <div class="stat"><div class="v">LNG</div><div class="l"><span class="en">Export window opening</span><span class="es">Ventana de exportación abriéndose</span></div></div>
-    <div class="stat"><div class="v">AI</div><div class="l"><span class="en">Production-ready stack</span><span class="es">Stack listo para producción</span></div></div>
-    <div class="stat"><div class="v">2026</div><div class="l"><span class="en">Window to own category</span><span class="es">Ventana para dominar la categoría</span></div></div>
+  <div class="eyebrow" data-i18n="scale-eyebrow">12 — Scalability</div>
+  <h2 data-i18n="scale-title">Every operator unlocks suppliers. <span class="accent">Every supplier sharpens the AI.</span></h2>
+  <div class="grid-4" style="margin-top:40px">
+    <div class="stat"><div class="v">5<span class="unit">x</span></div><div class="l" data-i18n="scale1">Drilling activity by 2030</div></div>
+    <div class="stat"><div class="v">1,200<span class="unit">+</span></div><div class="l" data-i18n="scale2">Active suppliers in basin</div></div>
+    <div class="stat"><div class="v">80<span class="unit">%</span></div><div class="l" data-i18n="scale3">Gross margin SaaS at scale</div></div>
+    <div class="stat"><div class="v">110<span class="unit">%</span>+</div><div class="l" data-i18n="scale4">Net revenue retention target</div></div>
   </div>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">Timing</span><span class="es">Timing</span></span></div>
+  <p class="lead" style="margin-top:40px" data-i18n="scale-desc">Every new operator brings 40-60 suppliers into the graph. Every supplier interaction trains the AI. Every AI improvement attracts more operators. The flywheel is local, proprietary, and exportable to Permian.</p>
+  <div class="footline"><span data-i18n="footer-brand">ADSMART INDUSTRIAL AI · Investor Deck</span><span data-i18n="footer-scale">SCALE</span></div>
 </section>
 
-<!-- ─────────── 13. THE ASK ─────────── -->
-<section class="slide">
-  <div class="grid-bg"></div>
-  <div class="eyebrow"><span class="en">12 — The Ask</span><span class="es">12 — La Propuesta</span></div>
-  <h2>
-    <span class="en">Capital to <span class="accent">capture the basin</span>.</span>
-    <span class="es">Capital para <span class="accent">capturar la cuenca</span>.</span>
-  </h2>
-  <div class="grid-3" style="margin-top:36px">
-    <div class="card">
-      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
-      <h3><span class="en">Product & AI</span><span class="es">Producto & IA</span></h3>
-      <p><span class="en">Scale data graph, vertical agents, vision models and edge deployment for operator-grade production environments.</span><span class="es">Escalar el grafo de datos, agentes verticales, modelos de visión y deploy edge para entornos de producción de nivel operadora.</span></p>
-    </div>
-    <div class="card">
-      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
-      <h3><span class="en">GTM & Field</span><span class="es">GTM & Campo</span></h3>
-      <p><span class="en">Neuquén HQ expansion, enterprise sales, customer engineering, executive ecosystem programs.</span><span class="es">Expansión de HQ Neuquén, ventas enterprise, ingeniería de clientes, programas ejecutivos de ecosistema.</span></p>
-    </div>
-    <div class="card">
-      <span class="num"><span class="en">/ USE OF FUNDS</span><span class="es">/ USO DE FONDOS</span></span>
-      <h3><span class="en">LATAM Beachhead</span><span class="es">Cabeza de Playa LATAM</span></h3>
-      <p><span class="en">Colombia and Brazil entry, partnership infrastructure, regulatory and compliance build-out.</span><span class="es">Entrada a Colombia y Brasil, infraestructura de partnerships, construcción regulatoria y de compliance.</span></p>
-    </div>
-  </div>
-  <p class="lead" style="margin-top:32px">
-    <span class="en">SMARTM is positioned to become the operating system of the Latin American upstream — starting from the basin the world is watching.</span>
-    <span class="es">SMARTM está posicionada para convertirse en el sistema operativo del upstream latinoamericano — comenzando por la cuenca que el mundo observa.</span>
-  </p>
-  <div class="footline"><span>SMARTM · Investor Deck</span><span><span class="en">The Ask</span><span class="es">La Propuesta</span></span></div>
-</section>
-
-<!-- ─────────── 14. CLOSE ─────────── -->
+<!-- SLIDE 14: CLOSE -->
 <section class="slide cover">
-  <div class="grid-bg"></div><div class="scan"></div>
-  <div class="eyebrow"><span class="en">— End of Deck</span><span class="es">— Fin del Deck</span></div>
-  <h1>SMART<span class="accent">·</span>M<br/><span style="font-size:.38em;color:var(--mute);font-weight:200;letter-spacing:.05em"><span class="en">Machine intelligence for the energy frontier.</span><span class="es">Inteligencia de máquinas para la frontera energética.</span></span></h1>
+  <div class="grid-bg"></div>
+  <div class="scan"></div>
+  <div class="eyebrow" data-i18n="close-eyebrow">— End of Deck</div>
+  <h1>AD<span class="accent">·</span>SMART<br/><span style="font-size:.35em;color:var(--mute);font-weight:200;letter-spacing:.15em" data-i18n="close-subtitle">INDUSTRIAL AI</span><br/><span style="font-size:.3em;color:var(--mute);font-weight:200;letter-spacing:.05em" data-i18n="close-tagline">Machine intelligence for the energy frontier.</span></h1>
   <div class="cover-meta">
-    <div><div class="l"><span class="en">Contact</span><span class="es">Contacto</span></div><div class="v">invest@smartm.ai</div></div>
-    <div><div class="l">HQ</div><div class="v">Neuquén Tech District</div></div>
-    <div><div class="l"><span class="en">Confidential</span><span class="es">Confidencial</span></div><div class="v">© SMARTM 2026</div></div>
+    <div><div class="l" data-i18n="close-contact">Contact</div><div class="v">invest@adsmart.industrial</div></div>
+    <div><div class="l" data-i18n="close-hq">HQ</div><div class="v">Neuquén · Buenos Aires</div></div>
+    <div><div class="l" data-i18n="close-conf">Confidential</div><div class="v">© ADSMART INDUSTRIAL AI 2026</div></div>
   </div>
 </section>
 
-</div><!-- /deck -->
+</div>
 
-<!-- NAV -->
 <div class="nav">
-  <button id="prev">◀</button>
+  <button id="prev">◀ <span data-i18n="nav-prev">PREV</span></button>
   <span class="count" id="counter">01 / 14</span>
-  <button id="next">▶</button>
+  <button id="next"><span data-i18n="nav-next">NEXT</span> ▶</button>
 </div>
 
 <script>
-const slides=[...document.querySelectorAll('.slide')];
-let cur=0;
-const total=slides.length;
-function show(n){
-  slides[cur].classList.remove('active');
-  cur=(n+total)%total;
-  slides[cur].classList.add('active');
-  const lbl=String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
-  document.getElementById('counter').textContent=lbl;
-  document.getElementById('pageNum').textContent=lbl;
+const translations = {
+  es: {
+    "cover-eyebrow": "— Investor Deck",
+    "cover-subtitle": "INDUSTRIAL AI",
+    "cover-lead": "Machine intelligence para operaciones Oil & Gas. Sistemas RAG deterministas y agentes autónomos para la frontera energética.",
+    "cover-sector": "Sector",
+    "cover-hq": "HQ",
+    "cover-date": "Fecha",
+    "cover-date-val": "Q2 2026",
+    "prob-eyebrow": "01 — Punto de Inflexión",
+    "prob-title": "Los operadores ya usan AI para optimizar ROI. <span class=\"accent\">El boom de $60B requiere optimizar la AI misma para escala sin precedentes.</span>",
+    "prob1-title": "Presión de Escala por Inversión",
+    "prob1-desc": "Influjo de capital $60-95B requiere 3x producción para 2030. Playbooks actuales de optimización diseñados para crecimiento incremental, no despliegue exponencial.",
+    "prob2-title": "Compresión Competitiva de Márgenes",
+    "prob2-desc": "Nuevos entrantes a la cuenca más majors globales ingresando a Vaca Muerta. Diferenciación = extraer 40% más eficiencia de los mismos flujos de datos vs. 15% de competidores.",
+    "prob3-title": "Techo Tecnológico",
+    "prob3-desc": "Soluciones AI puntuales (optimización drilling, monitoreo equipos) entregaron ganancias en silos. Inteligencia determinista cross-operacional entrega ganancias compuestas across producción-mantenimiento-compliance.",
+    "sol-eyebrow": "02 — Solución",
+    "sol-title": "AI Determinista. <span class=\"accent\">Construida para operaciones críticas.</span>",
+    "sol1-title": "Inteligencia Multi-Fuente",
+    "sol1-desc": "Capa de datos unificada integrando SCADA, ERP, sensores IoT, logs de mantenimiento y docs regulatorios. Respuestas verificables y auditables con cero tolerancia a alucinaciones.",
+    "sol2-title": "AI Operacional Especializada",
+    "sol2-desc": "Alertas predictivas de mantenimiento, optimización de producción en tiempo real, monitoreo automático de compliance y ajustes dinámicos de procesos.",
+    "uc-eyebrow": "03 — Casos de Uso",
+    "uc-title": "Del sensor a la decisión. <span class=\"accent\">En tiempo real.</span>",
+    "uc1-title": "Mantenimiento Predictivo",
+    "uc1-desc": "Reconocimiento de patrones en flujos de sensores para predecir fallas de equipos 48-72h anticipadas, reduciendo downtime no planificado en 62%.",
+    "uc2-title": "Optimización de Producción",
+    "uc2-desc": "Ajuste dinámico de parámetros across pozos e instalaciones para maximizar output manteniendo umbrales de seguridad.",
+    "uc3-title": "Compliance Automatizado",
+    "uc3-desc": "Monitoreo continuo regulatorio, generación de alertas y automatización de reportes para estándares HSE y ambientales.",
+    "market-eyebrow": "04 — Oportunidad de Mercado",
+    "market-title": "Mercado masivo. <span class=\"accent\">Punto de entrada estratégico.</span>",
+    "market-tam": "TAM — AI Global en O&G 2026",
+    "market-sam": "SAM — Américas (US + LATAM)",
+    "market-som": "SOM — Vaca Muerta + Permian 3A",
+    "market-desc": "AI en Oil & Gas creciendo a 14% CAGR. Vaca Muerta representa $60-95B inversión acumulada hasta 2030, con adopción de AI en punto de inflexión.",
+    "biz-eyebrow": "05 — Modelo de Negocio",
+    "biz-title": "Tres flujos de ingresos. <span class=\"accent\">Una plataforma.</span>",
+    "biz-col1": "STREAM",
+    "biz-col2": "COMPRADOR",
+    "biz-col3": "PRICING",
+    "biz-col4": "PERFIL MARGEN",
+    "biz-col5": "ACV (USD)",
+    "biz-row1-stream": "Plataforma Data Intelligence",
+    "biz-row1-buyer": "Proveedores · Consultoras",
+    "biz-row1-pricing": "Suscripción por tiers",
+    "biz-row1-margin": "Muy Alto (90%+)",
+    "biz-row2-stream": "Motor GTM Gestionado",
+    "biz-row2-buyer": "Proveedores entrando a cuenca",
+    "biz-row2-pricing": "Retainer + % deal + add-on programática",
+    "biz-row2-margin": "Blended (55–65%)",
+    "biz-row3-stream": "Proyectos AI Operaciones",
+    "biz-row3-buyer": "Operadores · Majors",
+    "biz-row3-pricing": "Implementación + retainer",
+    "biz-row3-margin": "Blended (45–60%)",
+    "biz-note": "Plataforma Data Intelligence: AI propietaria captura ciclos de procurement, alertas de licitaciones y posicionamiento de operadores en ecosistema Vaca Muerta—datasets estructurados sin competidores directos. Actualmente monetizado en otras verticales; offering O&G lanzando con capital Seed. | Motor GTM Gestionado: Convierte data intelligence en pipeline calificado mediante generación leads AI, activación multicanal (email, LinkedIn, programática), y reuniones on-site en Polo Tec Neuquén. 4 clientes activos validan modelo. Media programática disponible como add-on (8-12% media spend). | Proyectos AI Operaciones: Discovery (2-4 semanas) mapea ecosistema tech y prioriza casos de uso por ROI. MVP (8-12 semanas) valida hipótesis de valor. Opciones Scale: fee fijo mensual o revenue share (15-25% impacto medible durante 24-36 meses). Soporte premium 24/7 incluido.",
+    "biz-bottom": "Plataforma data crea moat propietario. GTM Gestionado monetiza ese moat a escala. Proyectos AI Ops profundizan relaciones con operadores y alimentan flywheel de datos. Presencia física en Polo Tec Neuquén habilita ejecución que ningún competidor remoto puede replicar.",
+    "traction-eyebrow": "06 — Tracción y Validación",
+    "traction-title": "Construyendo momentum. <span class=\"accent\">Partnerships estratégicos asegurados.</span>",
+    "traction-progress": "Progreso a la Fecha",
+    "traction1": "Partnerships formales: ITBA (Ing. Petróleo) + UDESA (Negocios) + SAIA (Validación AI)",
+    "traction2": "Pipeline comercial: 3 operadores mid-tier en conversaciones avanzadas",
+    "traction3": "Presencia física: Oficinas en Polo Tec Neuquén (acceso directo Vaca Muerta)",
+    "traction4": "Plataforma técnica: RAG determinista + agentes operacionales en desarrollo",
+    "traction5": "Integración ecosistema: Participación activa en iniciativas AI Vaca Muerta",
+    "traction-projected": "Métricas de Impacto Proyectadas",
+    "traction-metric1": "Costos Operativos",
+    "traction-metric2": "Eficiencia Producción",
+    "traction-metric3": "Downtime No Planificado",
+    "traction-note": "Benchmarked contra líderes industria como Tecpetrol (reducción tiempo drilling de 40 a 16 días usando AI/ML).",
+    "moat-eyebrow": "07 — Ventaja Competitiva",
+    "moat-title": "Posicionamiento único. <span class=\"accent\">Barrera defendible.</span>",
+    "moat1-title": "Diferenciación Estratégica",
+    "moat1-1": "Stack completo: RAG Ops + SaaS Comercial + Media Programática (competidores hacen soluciones punto)",
+    "moat1-2": "Presencia física: Neuquén + Buenos Aires embebido en ecosistema (vs. remoto/HQ internacional)",
+    "moat1-3": "Determinismo certificado: Arquitectura zero-hallucination para ops críticas (vs. LLMs genéricos)",
+    "moat1-4": "Alianza I+D exclusiva: Partnership ITBA/UDESA/SAIA (vs. relaciones solo comerciales)",
+    "moat1-5": "Modelo dual: Proyectos custom + SaaS escalable (vs. solo proyecto o solo SaaS)",
+    "moat2-title": "Posición de Mercado",
+    "moat2-desc": "Competencia local fragmentada entre consultoras tradicionales (Accenture, Deloitte), equipos in-house de operadores (YPF-Globant, Tecpetrol), y players tech globales (IBM Watson, Microsoft Azure, C3.AI).",
+    "moat2-gap": "Gap que llenamos: Ningún player existente combina expertise AI operacional, plataforma inteligencia comercial, intimidad mercado local, y arquitectura determinista purpose-built para O&G no convencional.",
+    "team-eyebrow": "08 — Equipo y Expertise",
+    "team-title": "Capacidad de ejecución. <span class=\"accent\">Expertise de dominio.</span>",
+    "team1-name": "Gonzalo Farrus",
+    "team1-title": "CEO & Founder",
+    "team1-bio": "20+ años experiencia ejecutiva. Founder de Adsmart Media (Programática & Performance). Socio en Apex Nativa (eCommerce + Wellness). Expertise en Automotriz, Banca, CPG, Oil & Gas. Early adopter de soluciones AI-driven desde 2023.",
+    "team2-name": "CTO - Arquitecto RAG",
+    "team2-title": "A contratar con Seed",
+    "team2-bio": "Perfil target: PhD o equivalente en AI/ML, experiencia comprobada construyendo sistemas RAG en producción, conocimiento profundo de arquitecturas deterministas e integración de datos enterprise.",
+    "team3-name": "Head de Operaciones",
+    "team3-title": "Advisor (equity post-Seed)",
+    "team3-bio": "Ex-operador Vaca Muerta con 15+ años experiencia de campo. Rol advisory transicionando a liderazgo operacional full-time. Crítico para validación de clientes y credibilidad técnica.",
+    "team-partners-desc": "Validación institucional a través de partnerships formales",
+    "team-itba": "Ingeniería en Petróleo<br/>Partnership Técnico",
+    "team-udesa": "Director Carrera Negocios<br/>Advisory Estratégico",
+    "team-saia": "Validación AI en O&G<br/>www.saia.ar",
+    "pres-eyebrow": "09 — Presencia Estratégica",
+    "pres-title": "Tres hubs. <span class=\"accent\">Una misión.</span>",
+    "pres-neuquen": "Polo Tecnológico · Acceso directo a operadores y ecosistema Vaca Muerta",
+    "pres-buenosaires": "HQ Operativo · Hub desarrollo tech · Coordinación ITBA/UDESA",
+    "pres-houston": "Desarrollo partnerships · Acceso ecosistema tech O&G global · Entrada mercado norteamericano",
+    "pres-bottom": "Desde Vaca Muerta hacia afuera. Ejecución local con escalabilidad global. Partnerships Houston con apoyo de red inversores.",
+    "ask-eyebrow": "10 — The Ask",
+    "ask-title": "Ronda Seed para <span class=\"accent\">capturar la cuenca</span>.",
+    "ask-round": "RONDA SEED",
+    "ask-use": "/ USO DE FONDOS",
+    "ask1-title": "55% Producto & AI",
+    "ask1-desc": "$550K: Equipo tech core (CTO + 1-2 ingenieros), infraestructura cloud, desarrollo modelos RAG, implementación arquitectura determinista.",
+    "ask2-title": "30% Go-to-Market",
+    "ask2-desc": "$300K: Expansión GTM Vaca Muerta, desarrollo partnerships Houston (viajes + BD), eventos industria, adquisición clientes piloto.",
+    "ask3-title": "15% Operaciones",
+    "ask3-desc": "$150K: Legal, accounting, oficinas, runway 18 meses para ejecución enfocada sin distracción de capital.",
+    "ask-milestones": "Hitos 18 Meses",
+    "ask-m1": "ARR: $650K (10 clientes GTM Gestionado @ $60K promedio + 1-2 pilotos AI Ops @ $125K promedio)",
+    "ask-m2": "Equipo: 6-8 personas (tech, ventas, ops)",
+    "ask-m3": "Producto: Plataforma RAG production-ready + 2 agentes operacionales desplegados",
+    "ask-m4": "Validación mercado: 2-3 case studies con impacto medible",
+    "ask-m5": "Serie A readiness: Motion GTM repetible + unit economics probados",
+    "ask-contact": "Contacto",
+    "ask-cta": "AdSmart Industrial AI está posicionada para convertirse en el sistema operativo del upstream latinoamericano — comenzando desde la cuenca que el mundo está observando.",
+    "gtm-eyebrow": "11 — GTM",
+    "gtm-title": "Ganar 3-5 operadores con pilotos AI de alto ROI. <span class=\"accent\">Sus redes de proveedores se convierten en nuestra base SaaS.</span>",
+    "gtm1": "Anclar 3–5 operadores con pilotos AI medibles (mantenimiento predictivo, optimización producción)",
+    "gtm2": "Convertir sus proveedores existentes a suscripciones SaaS (inteligencia procurement, alertas licitaciones)",
+    "gtm3": "Monetizar programática en las mismas relaciones de proveedores (8-12% media spend)",
+    "gtm4": "Desayunos ejecutivos como motor mensual de pipeline (decisores C-level)",
+    "gtm5": "Workshops on-site embebidos en workflows HSE & ops (credibilidad + feedback producto)",
+    "gtm6": "Partnerships de canal con OEMs que ya sirven a estos operadores (motion co-selling)",
+    "gtm-sales": "Motion de Ventas",
+    "gtm-direct": "Enterprise directo",
+    "gtm-saas": "Self-serve SaaS",
+    "gtm-channel": "Canal & OEM",
+    "gtm-cac": "Payback CAC < 9 meses en SaaS. Land-and-expand en operadores promedia 3.2x ACV en año dos.",
+    "scale-eyebrow": "12 — Escalabilidad",
+    "scale-title": "Cada operador desbloquea proveedores. <span class=\"accent\">Cada proveedor afila la AI.</span>",
+    "scale1": "Actividad drilling para 2030",
+    "scale2": "Proveedores activos en cuenca",
+    "scale3": "Margen bruto SaaS a escala",
+    "scale4": "Target net revenue retention",
+    "scale-desc": "Cada nuevo operador trae 40-60 proveedores al grafo. Cada interacción de proveedor entrena la AI. Cada mejora de AI atrae más operadores. El flywheel es local, propietario y exportable a Permian.",
+    "close-eyebrow": "— Fin del Deck",
+    "close-subtitle": "INDUSTRIAL AI",
+    "close-tagline": "Machine intelligence para la frontera energética.",
+    "close-contact": "Contacto",
+    "close-hq": "HQ",
+    "close-conf": "Confidencial",
+    "footer-brand": "ADSMART INDUSTRIAL AI · Investor Deck",
+    "footer-prob": "PUNTO DE INFLEXIÓN",
+    "footer-sol": "SOLUCIÓN",
+    "footer-uc": "CASOS DE USO",
+    "footer-market": "MERCADO",
+    "footer-biz": "MODELO DE NEGOCIO",
+    "footer-traction": "TRACCIÓN",
+    "footer-moat": "VENTAJA COMPETITIVA",
+    "footer-team": "EQUIPO",
+    "footer-pres": "PRESENCIA",
+    "footer-ask": "THE ASK",
+    "footer-gtm": "GTM",
+    "footer-scale": "ESCALA",
+    "nav-prev": "ANTERIOR",
+    "nav-next": "SIGUIENTE"
+  },
+  en: {
+    "cover-eyebrow": "— Investor Deck",
+    "cover-subtitle": "INDUSTRIAL AI",
+    "cover-lead": "Machine intelligence for Oil & Gas operations. Deterministic RAG systems and autonomous agents for the energy frontier.",
+    "cover-sector": "Sector",
+    "cover-hq": "HQ",
+    "cover-date": "Date",
+    "cover-date-val": "Q2 2026",
+    "prob-eyebrow": "01 — Market Inflection Point",
+    "prob-title": "Operators already use AI to optimize ROI. <span class=\"accent\">The $60B boom requires optimizing the AI itself for unprecedented scale.</span>",
+    "prob1-title": "Investment-Driven Scale Pressure",
+    "prob1-desc": "$60-95B capital influx requires 3x production by 2030. Current optimization playbooks designed for incremental growth, not exponential deployment.",
+    "prob2-title": "Competitive Margin Compression",
+    "prob2-desc": "New basin entrants plus global majors entering Vaca Muerta. Differentiation equals extracting 40% more efficiency from same data streams versus competitors' 15%.",
+    "prob3-title": "Technological Ceiling",
+    "prob3-desc": "Point AI solutions (drilling optimization, equipment monitoring) delivered gains in silos. Cross-operational deterministic intelligence delivers compounding gains across production-maintenance-compliance.",
+    "sol-eyebrow": "02 — Solution",
+    "sol-title": "Deterministic AI. <span class=\"accent\">Built for critical operations.</span>",
+    "sol1-title": "Multi-Source Intelligence",
+    "sol1-desc": "Unified data layer integrating SCADA, ERP, IoT sensors, maintenance logs and regulatory docs. Verifiable, auditable responses with zero hallucination tolerance.",
+    "sol2-title": "Specialized Operations AI",
+    "sol2-desc": "Predictive maintenance alerts, real-time production optimization, automated compliance monitoring and dynamic process adjustments.",
+    "uc-eyebrow": "03 — Use Cases",
+    "uc-title": "From sensor to decision. <span class=\"accent\">In real time.</span>",
+    "uc1-title": "Predictive Maintenance",
+    "uc1-desc": "Pattern recognition in sensor streams to forecast equipment failure 48-72h in advance, reducing unplanned downtime by 62%.",
+    "uc2-title": "Production Optimization",
+    "uc2-desc": "Dynamic parameter adjustment across wells and facilities to maximize output while maintaining safety thresholds.",
+    "uc3-title": "Automated Compliance",
+    "uc3-desc": "Continuous regulatory monitoring, alert generation and report automation for HSE and environmental standards.",
+    "market-eyebrow": "04 — Market Opportunity",
+    "market-title": "Massive market. <span class=\"accent\">Strategic entry point.</span>",
+    "market-tam": "TAM — Global AI in O&G 2026",
+    "market-sam": "SAM — Americas (US + LATAM)",
+    "market-som": "SOM — Vaca Muerta + Permian 3Y",
+    "market-desc": "AI in Oil & Gas growing at 14% CAGR. Vaca Muerta represents $60-95B cumulative investment through 2030, with AI adoption at inflection point.",
+    "biz-eyebrow": "05 — Business Model",
+    "biz-title": "Three revenue streams. <span class=\"accent\">One platform.</span>",
+    "biz-col1": "STREAM",
+    "biz-col2": "BUYER",
+    "biz-col3": "PRICING",
+    "biz-col4": "MARGIN PROFILE",
+    "biz-col5": "ACV (USD)",
+    "biz-row1-stream": "Data Intelligence Platform",
+    "biz-row1-buyer": "Suppliers · Consultancies",
+    "biz-row1-pricing": "Tiered subscription",
+    "biz-row1-margin": "Very High (90%+)",
+    "biz-row2-stream": "Managed GTM Engine",
+    "biz-row2-buyer": "Suppliers entering basin",
+    "biz-row2-pricing": "Retainer + % deal + programmatic add-on",
+    "biz-row2-margin": "Blended (55–65%)",
+    "biz-row3-stream": "AI Operations Projects",
+    "biz-row3-buyer": "Operators · Majors",
+    "biz-row3-pricing": "Implementation + retainer",
+    "biz-row3-margin": "Blended (45–60%)",
+    "biz-note": "Data Intelligence Platform: Proprietary AI captures procurement cycles, tender alerts, and operator positioning across Vaca Muerta ecosystem—structured datasets with zero direct competitors. Currently monetized in other verticals; O&G offering launching with seed capital. | Managed GTM Engine: Converts data intelligence into qualified pipeline through AI-powered lead generation, multi-channel activation (email, LinkedIn, programmatic), and on-site meetings at Neuquén Tech Park. 4 active clients validate model. Programmatic media available as add-on (8-12% media spend). | AI Operations Projects: Discovery (2-4 weeks) maps tech ecosystem and prioritizes use cases by ROI. MVP (8-12 weeks) validates value hypothesis. Scale options: fixed monthly fee or revenue share (15-25% of measurable impact over 24-36 months). Premium 24/7 support included.",
+    "biz-bottom": "Data platform creates proprietary moat. Managed GTM monetizes that moat at scale. AI Ops projects deepen operator relationships and feed data flywheel. Physical presence at Neuquén Tech Park enables execution no remote competitor can replicate.",
+    "traction-eyebrow": "06 — Traction & Validation",
+    "traction-title": "Building momentum. <span class=\"accent\">Strategic partnerships secured.</span>",
+    "traction-progress": "Progress to Date",
+    "traction1": "Formal partnerships: ITBA (Petroleum Eng.) + UDESA (Business) + SAIA (AI Validation)",
+    "traction2": "Commercial pipeline: 3 mid-tier operators in advanced conversations",
+    "traction3": "Physical presence: Offices at Neuquén Tech Park (direct Vaca Muerta access)",
+    "traction4": "Technical platform: Deterministic RAG + operational agents in development",
+    "traction5": "Ecosystem integration: Active participation in Vaca Muerta AI initiatives",
+    "traction-projected": "Projected Impact Metrics",
+    "traction-metric1": "Operational Costs",
+    "traction-metric2": "Production Efficiency",
+    "traction-metric3": "Unplanned Downtime",
+    "traction-note": "Benchmarked against industry leaders like Tecpetrol (drilling time reduction from 40 to 16 days using AI/ML).",
+    "moat-eyebrow": "07 — Competitive Advantage",
+    "moat-title": "Unique positioning. <span class=\"accent\">Defensible moat.</span>",
+    "moat1-title": "Strategic Differentiation",
+    "moat1-1": "Complete stack: RAG Ops + Commercial SaaS + Programmatic Media (competitors do point solutions)",
+    "moat1-2": "Physical presence: Neuquén + Buenos Aires embedded in ecosystem (vs. remote/international HQ)",
+    "moat1-3": "Certified determinism: Zero-hallucination architecture for critical operations (vs. generic LLMs)",
+    "moat1-4": "Exclusive R&D alliance: ITBA/UDESA/SAIA partnership (vs. commercial-only relationships)",
+    "moat1-5": "Dual model: Custom projects + scalable SaaS (vs. project-only or SaaS-only)",
+    "moat2-title": "Market Position",
+    "moat2-desc": "Local competition fragmented between traditional consultancies (Accenture, Deloitte), operator in-house teams (YPF-Globant, Tecpetrol), and global tech players (IBM Watson, Microsoft Azure, C3.AI).",
+    "moat2-gap": "Gap we fill: No existing player combines operational AI expertise, commercial intelligence platform, local market intimacy, and deterministic architecture purpose-built for unconventional O&G.",
+    "team-eyebrow": "08 — Team & Expertise",
+    "team-title": "Execution capability. <span class=\"accent\">Domain expertise.</span>",
+    "team1-name": "Gonzalo Farrus",
+    "team1-title": "CEO & Founder",
+    "team1-bio": "20+ years executive experience. Founder of Adsmart Media (Programmatic & Performance). Partner at Apex Nativa (eCommerce + Wellness). Expertise across Automotive, Banking, CPG, Oil & Gas. Early adopter of AI-driven solutions since 2023.",
+    "team2-name": "CTO - RAG Architect",
+    "team2-title": "To be hired with Seed",
+    "team2-bio": "Target profile: PhD or equivalent in AI/ML, proven experience building production RAG systems, deep understanding of deterministic architectures and enterprise data integration.",
+    "team3-name": "Head of Operations",
+    "team3-title": "Advisor (equity post-Seed)",
+    "team3-bio": "Former Vaca Muerta operator with 15+ years field experience. Advisory role transitioning to full-time operational leadership. Critical for customer validation and technical credibility.",
+    "team-partners-desc": "Institutional validation through formal partnerships",
+    "team-itba": "Petroleum Engineering<br/>Technical Partnership",
+    "team-udesa": "Business Program Director<br/>Strategic Advisory",
+    "team-saia": "AI in O&G Validation<br/>www.saia.ar",
+    "pres-eyebrow": "09 — Strategic Presence",
+    "pres-title": "Three hubs. <span class=\"accent\">One mission.</span>",
+    "pres-neuquen": "Technology Park · Direct access to Vaca Muerta operators and ecosystem",
+    "pres-buenosaires": "Operational HQ · Tech development hub · ITBA/UDESA coordination",
+    "pres-houston": "Partnership development · Global O&G tech ecosystem access · North American market entry",
+    "pres-bottom": "From Vaca Muerta outward. Local execution with global scalability. Houston partnerships supported by investor network.",
+    "ask-eyebrow": "10 — The Ask",
+    "ask-title": "Seed round to <span class=\"accent\">capture the basin</span>.",
+    "ask-round": "SEED ROUND",
+    "ask-use": "/ USE OF FUNDS",
+    "ask1-title": "55% Product & AI",
+    "ask1-desc": "$550K: Core tech team (CTO + 1-2 engineers), cloud infrastructure, RAG models development, deterministic architecture implementation.",
+    "ask2-title": "30% Go-to-Market",
+    "ask2-desc": "$300K: Vaca Muerta GTM expansion, Houston partnership development (travel + BD), industry events, pilot customer acquisition.",
+    "ask3-title": "15% Operations",
+    "ask3-desc": "$150K: Legal, accounting, offices, 18-month runway for focused execution without capital distraction.",
+    "ask-milestones": "18-Month Milestones",
+    "ask-m1": "ARR: $650K (10 Managed GTM clients @ $60K avg + 1-2 AI Ops pilots @ $125K avg)",
+    "ask-m2": "Team: 6-8 people (tech, sales, ops)",
+    "ask-m3": "Product: Production-ready RAG platform + 2 operational agents deployed",
+    "ask-m4": "Market validation: 2-3 case studies with measurable impact",
+    "ask-m5": "Series A readiness: Repeatable GTM motion + proven unit economics",
+    "ask-contact": "Contact",
+    "ask-cta": "AdSmart Industrial AI is positioned to become the operating system of Latin American upstream — starting from the basin the world is watching.",
+    "gtm-eyebrow": "11 — GTM",
+    "gtm-title": "Win 3-5 operators with high-ROI pilots. <span class=\"accent\">Their supplier networks become our SaaS base.</span>",
+    "gtm1": "Anchor 3–5 operators with measurable AI pilots (predictive maintenance, production optimization)",
+    "gtm2": "Convert their existing suppliers to SaaS subscriptions (procurement intelligence, tender alerts)",
+    "gtm3": "Monetize programmatic on the same supplier relationships (8-12% media spend)",
+    "gtm4": "Executive breakfasts as monthly pipeline engine (C-level decision makers)",
+    "gtm5": "On-site workshops embedded in HSE & ops workflows (credibility + product feedback)",
+    "gtm6": "Channel partnerships with OEMs already serving these operators (co-selling motion)",
+    "gtm-sales": "Sales Motion",
+    "gtm-direct": "Direct enterprise",
+    "gtm-saas": "Self-serve SaaS",
+    "gtm-channel": "Channel & OEM",
+    "gtm-cac": "CAC payback < 9 months on SaaS. Land-and-expand on operators averages 3.2x ACV by year two.",
+    "scale-eyebrow": "12 — Scalability",
+    "scale-title": "Every operator unlocks suppliers. <span class=\"accent\">Every supplier sharpens the AI.</span>",
+    "scale1": "Drilling activity by 2030",
+    "scale2": "Active suppliers in basin",
+    "scale3": "Gross margin SaaS at scale",
+    "scale4": "Net revenue retention target",
+    "scale-desc": "Every new operator brings 40-60 suppliers into the graph. Every supplier interaction trains the AI. Every AI improvement attracts more operators. The flywheel is local, proprietary, and exportable to Permian.",
+    "close-eyebrow": "— End of Deck",
+    "close-subtitle": "INDUSTRIAL AI",
+    "close-tagline": "Machine intelligence for the energy frontier.",
+    "close-contact": "Contact",
+    "close-hq": "HQ",
+    "close-conf": "Confidential",
+    "footer-brand": "ADSMART INDUSTRIAL AI · Investor Deck",
+    "footer-prob": "MARKET INFLECTION",
+    "footer-sol": "SOLUTION",
+    "footer-uc": "USE CASES",
+    "footer-market": "MARKET",
+    "footer-biz": "BUSINESS MODEL",
+    "footer-traction": "TRACTION",
+    "footer-moat": "COMPETITIVE ADVANTAGE",
+    "footer-team": "TEAM",
+    "footer-pres": "PRESENCE",
+    "footer-ask": "THE ASK",
+    "footer-gtm": "GTM",
+    "footer-scale": "SCALE",
+    "nav-prev": "PREV",
+    "nav-next": "NEXT"
+  }
+};
+
+let currentLang = 'es';
+
+function switchLanguage(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
 }
-document.getElementById('next').onclick=()=>show(cur+1);
-document.getElementById('prev').onclick=()=>show(cur-1);
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key===' ')show(cur+1);
-  if(e.key==='ArrowLeft')show(cur-1);
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchLanguage(btn.getAttribute('data-lang')));
 });
-function setLang(l){
-  document.body.className='lang-'+l;
-  document.getElementById('btnEN').classList.toggle('active',l==='en');
-  document.getElementById('btnES').classList.toggle('active',l==='es');
+
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const total=slides.length;
+const counter=document.getElementById('counter');
+const pageNum=document.getElementById('pageNum');
+function show(n){
+  slides[i].classList.remove('active');
+  i=(n+total)%total;
+  slides[i].classList.add('active');
+  const label=String(i+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+  counter.textContent=label;
+  pageNum.textContent=label;
 }
+document.getElementById('next').onclick=()=>show(i+1);
+document.getElementById('prev').onclick=()=>show(i-1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')show(i+1);
+  if(e.key==='ArrowLeft')show(i-1);
+});
 </script>
 </body>
 </html>
